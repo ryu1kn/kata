@@ -1,9 +1,9 @@
 package example
 
-object Game extends Greeting with App {
-  println(greeting)
-}
+class Game {
+  def score() = 0
 
-trait Greeting {
-  lazy val greeting: String = "hello"
+  def roll(point: Int) = {
+  }
+
 }
