@@ -13,13 +13,15 @@ object PotterBook {
     amount + price(remainings)
   }
 
-  private def discountedUnitPrice(distinctBooks: Int) = UNIT_PRICE * (1 - DISTINCT_BOOK_DISCOUNTS(distinctBooks - 1))
+  private def discountedUnitPrice(distinctBooks: Int) =
+    UNIT_PRICE * (1 - DISTINCT_BOOK_DISCOUNTS(distinctBooks - 1))
 
   private def findUniqueBooks(bookIds: List[Int]): (List[Int], List[Int]) = bookIds match {
-    case b :: Nil => (List(b), List())
+    case List(b) => (List(b), List())
     case b :: tail =>
       val (uniqueIds, remainings) = findUniqueBooks(tail)
-      if (uniqueIds.contains(b)) (uniqueIds, b :: remainings) else (b :: uniqueIds, remainings)
+      if (uniqueIds.contains(b)) (uniqueIds, b :: remainings)
+      else (b :: uniqueIds, remainings)
   }
 
 }
