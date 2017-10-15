@@ -11,12 +11,12 @@ object PotterBook {
     if (bookIds.size == 0) return 0
 
     val (uniqueIds, remainings) = findUniqueBooks(bookIds)
-    subsetPrice(uniqueIds) + price(remainings)
+    subsetPrice(uniqueIds.size) + price(remainings)
   }
 
-  private def subsetPrice(distinctBooks: List[Book]) = {
-    val discountRate = DISTINCT_BOOK_DISCOUNTS(distinctBooks.size - 1)
-    UNIT_PRICE * (1 - discountRate) * distinctBooks.size
+  private def subsetPrice(distinctBookCount: Int): Double = {
+    val discountRate = DISTINCT_BOOK_DISCOUNTS(distinctBookCount - 1)
+    UNIT_PRICE * (1 - discountRate) * distinctBookCount
   }
 
   private def findUniqueBooks(bookIds: List[Book]): (List[Book], List[Book]) = bookIds match {
