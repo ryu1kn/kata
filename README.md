@@ -82,3 +82,21 @@ http://codingdojo.org/kata/Potter/
 >            4, 4, 4, 4]))
 > end
 > ```
+
+## Test
+
+```sh
+$ sbt test
+```
+
+## Usage
+
+You can run this as a web service
+
+```sh
+$ sbt run
+```
+
+```sh
+$ curl "http://localhost:8080/price?books=0,1,2,3,4"
+```

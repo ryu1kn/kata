@@ -19,8 +19,9 @@ object WebServer {
     val route: Route =
       path("price") {
         get {
-          val price = PotterBook.price(List(0, 1, 2, 3, 4, 0))
-          complete(price.toString)
+          parameters('books.as[String]) {
+            books => complete(PotterBook.price(getAsIntList(books)).toString)
+          }
         }
       }
 
@@ -30,6 +31,10 @@ object WebServer {
     bindingFuture
       .flatMap(_.unbind())
       .onComplete(_ => system.terminate())
+  }
+
+  private def getAsIntList(books: String) = {
+    books.split(",").toList.map(_.trim.toInt)
   }
 
 }
