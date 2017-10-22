@@ -66,4 +66,3 @@ class PotterBookSpec extends FlatSpec with Matchers {
   }
 
 }
-
