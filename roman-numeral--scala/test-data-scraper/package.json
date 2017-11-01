@@ -1,0 +1,7 @@
+{
+  "name": "roman-numeral-data",
+  "version": "0.0.0",
+  "dependencies": {
+    "jsdom": "^11.3.0"
+  }
+}
