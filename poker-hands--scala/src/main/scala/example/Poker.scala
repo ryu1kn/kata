@@ -34,17 +34,30 @@ object Poker {
       case Card(card) => card
     }
     if (isStraightFlush(cards)) buildMessage("straight flush", cards.last)
-    else buildMessage("four of a kind", cards.last)
+    else if (isFourOfAKind(cards)) buildMessage("four of a kind", findMostCommonNumberCard(cards))
+    else buildMessage("full house", findMostCommonNumberCard(cards))
   }
 
-  private def isStraightFlush(hands: List[Card]): Boolean =
-    hands.zipWithIndex.forall {
+  private def isStraightFlush(cards: List[Card]): Boolean =
+    cards.zipWithIndex.forall {
       case (_, 0) => true
-      case (card, index) => isSameSuiteIncrement(hands(index - 1), card)
+      case (card, index) => isSameSuiteIncrement(cards(index - 1), card)
     }
 
   private def isSameSuiteIncrement(card1: Card, card2: Card): Boolean = {
     card2.suite == card1.suite && card2.intValue == card1.intValue + 1
+  }
+
+  private def isFourOfAKind(cards: List[Card]): Boolean =
+    cards
+      .groupBy[Int](card => card.intValue)
+      .exists { case (_, cardList) => cardList.size == 4 }
+
+  private def findMostCommonNumberCard(cards: List[Card]): Card = {
+    val (_, mostCommonNumberCards) = cards
+      .groupBy[Int](card => card.intValue)
+      .maxBy { case (_, cardList) => cardList.size }
+    mostCommonNumberCards(0)
   }
 
   private def buildMessage(handName: String, card: Card): String =
