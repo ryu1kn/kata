@@ -9,39 +9,41 @@ object Hand {
     Hand(cards)
   }
 
-  def isStraightFlush(cards: List[Card]): Boolean = satisfiesRelation(cards, isSameSuiteIncrement)
+  def lastCard(hand: Hand): Card = hand.cards.last
+
+  def isStraightFlush(hand: Hand): Boolean = satisfiesRelation(hand.cards, isSameSuiteIncrement)
 
   def isSameSuiteIncrement(card1: Card, card2: Card): Boolean =
     card2.suite == card1.suite && card2.intValue == card1.intValue + 1
 
-  def isFourOfAKind(cards: List[Card]): Boolean = isNOfAKind(cards, 4)
+  def isFourOfAKind(hand: Hand): Boolean = isNOfAKind(hand, 4)
 
-  def findMostCommonNumberCard(cards: List[Card]): Card = {
-    val (_, mostCommonNumberCards) = cards
+  def findMostCommonNumberCard(hand: Hand): Card = {
+    val (_, mostCommonNumberCards) = hand.cards
       .groupBy[Int](card => card.intValue)
       .maxBy { case (_, cardList) => cardList.size }
-    mostCommonNumberCards(0)
+    mostCommonNumberCards.head
   }
 
-  def isFullHouse(cards: List[Card]): Boolean =
-    cards
+  def isFullHouse(hand: Hand): Boolean =
+    hand.cards
       .groupBy[Int](card => card.intValue)
       .map { case (_, cardList) => cardList.size }
       .toList
       .sorted match {
-      case List(2, 3) => true
-      case _ => false
-    }
+        case List(2, 3) => true
+        case _ => false
+      }
 
-  def isFlush(cards: List[Card]): Boolean = cards.groupBy[Char](card => card.suite).size == 1
+  def isFlush(hand: Hand): Boolean = hand.cards.groupBy[Char](card => card.suite).size == 1
 
-  def isStraight(cards: List[Card]): Boolean =
-    satisfiesRelation[Int](cards.map(_.intValue).sorted, (card1, card2) => card2 == card1 + 1)
+  def isStraight(hand: Hand): Boolean =
+    satisfiesRelation[Int](hand.cards.map(_.intValue).sorted, (card1, card2) => card2 == card1 + 1)
 
-  def isThreeOfAKind(cards: List[Card]): Boolean = isNOfAKind(cards, 3)
+  def isThreeOfAKind(hand: Hand): Boolean = isNOfAKind(hand, 3)
 
-  private def isNOfAKind(cards: List[Card], n: Int): Boolean =
-    cards
+  private def isNOfAKind(hand: Hand, n: Int): Boolean =
+    hand.cards
       .groupBy[Int](card => card.intValue)
       .exists { case (_, cardList) => cardList.size == n }
 

@@ -6,14 +6,13 @@ object Poker {
 
   def play(hand1: String, hand2: String): String = {
     val hand = create(hand1)
-    val cards = hand.cards
-    if (isStraightFlush(cards)) buildMessage("straight flush", cards.last)
-    else if (isFourOfAKind(cards)) buildMessage("four of a kind", findMostCommonNumberCard(cards))
-    else if (isFullHouse(cards)) buildMessage("full house", findMostCommonNumberCard(cards))
-    else if (isFlush(cards)) buildMessage("flush", cards.last)
-    else if (isStraight(cards)) buildMessage("straight", cards.last)
-    else if (isThreeOfAKind(cards)) buildMessage("three of a kind", findMostCommonNumberCard(cards))
-    else buildMessage("two pairs", findMostCommonNumberCard(cards))
+    if (isStraightFlush(hand)) buildMessage("straight flush", lastCard(hand))
+    else if (isFourOfAKind(hand)) buildMessage("four of a kind", findMostCommonNumberCard(hand))
+    else if (isFullHouse(hand)) buildMessage("full house", findMostCommonNumberCard(hand))
+    else if (isFlush(hand)) buildMessage("flush", lastCard(hand))
+    else if (isStraight(hand)) buildMessage("straight", lastCard(hand))
+    else if (isThreeOfAKind(hand)) buildMessage("three of a kind", findMostCommonNumberCard(hand))
+    else buildMessage("two pairs", findMostCommonNumberCard(hand))
   }
 
   private def buildMessage(handName: String, card: Card): String =
