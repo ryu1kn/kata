@@ -25,15 +25,7 @@ object Hand {
     mostCommonNumberCards.head
   }
 
-  def isFullHouse(hand: Hand): Boolean =
-    hand.cards
-      .groupBy[Int](card => card.intValue)
-      .map { case (_, cardList) => cardList.size }
-      .toList
-      .sorted match {
-        case List(2, 3) => true
-        case _ => false
-      }
+  def isFullHouse(hand: Hand): Boolean = hasSameNumberGroups(hand, List(2, 3))
 
   def isFlush(hand: Hand): Boolean = hand.cards.groupBy[Char](card => card.suite).size == 1
 
@@ -42,10 +34,24 @@ object Hand {
 
   def isThreeOfAKind(hand: Hand): Boolean = isNOfAKind(hand, 3)
 
+  def isTwoPairs(hand: Hand): Boolean = hasSameNumberGroups(hand, List(1, 2, 2))
+
+  def isPair(hand: Hand): Boolean = hasSameNumberGroups(hand, List(1, 1, 1, 2))
+
   private def isNOfAKind(hand: Hand, n: Int): Boolean =
     hand.cards
       .groupBy[Int](card => card.intValue)
       .exists { case (_, cardList) => cardList.size == n }
+
+  private def hasSameNumberGroups(hand: Hand, groupSizes: List[Int]): Boolean =
+    hand.cards
+      .groupBy[Int](card => card.intValue)
+      .map { case (_, cardList) => cardList.size }
+      .toList
+      .sorted match {
+        case `groupSizes` => true
+        case _ => false
+      }
 
   private def satisfiesRelation[A](list: List[A], f: (A, A) => Boolean): Boolean =
     list.zipWithIndex.forall {

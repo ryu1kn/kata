@@ -12,7 +12,9 @@ object Poker {
     else if (isFlush(hand)) buildMessage("flush", lastCard(hand))
     else if (isStraight(hand)) buildMessage("straight", lastCard(hand))
     else if (isThreeOfAKind(hand)) buildMessage("three of a kind", findMostCommonNumberCard(hand))
-    else buildMessage("two pairs", findMostCommonNumberCard(hand))
+    else if (isTwoPairs(hand)) buildMessage("two pairs", findMostCommonNumberCard(hand))
+    else if (isPair(hand)) buildMessage("pair", findMostCommonNumberCard(hand))
+    else buildMessage("high card", lastCard(hand))
   }
 
   private def buildMessage(handName: String, card: Card): String =

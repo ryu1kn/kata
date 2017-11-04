@@ -4,7 +4,7 @@ import org.scalatest._
 
 class PokerSpec extends FlatSpec with Matchers {
 
-  val WEAKEST_HAND = "2C 3C 4C 5C 6S"
+  val WEAKEST_HAND = "2C 3C 4C 5C 7S"
 
   it should "win with the strongest Straight flush" in {
     Poker.play("TD JD QD KD AD", WEAKEST_HAND) shouldEqual "Black wins. - with straight flush: Ace"
@@ -64,6 +64,22 @@ class PokerSpec extends FlatSpec with Matchers {
 
   it should "win with the strongest Two Pairs" in {
     Poker.play("QD KC KD AC AD", WEAKEST_HAND) shouldEqual "Black wins. - with two pairs: Ace"
+  }
+
+  it should "win with the Two Pairs with the strongest number not in the pairs" in {
+    Poker.play("QC QD KC KD AD", WEAKEST_HAND) shouldEqual "Black wins. - with two pairs: King"
+  }
+
+  it should "win with the strongest Pair" in {
+    Poker.play("JD QC KD AC AD", WEAKEST_HAND) shouldEqual "Black wins. - with pair: Ace"
+  }
+
+  it should "win with the strongest High Card" in {
+    Poker.play("9C TC JC QC AD", WEAKEST_HAND) shouldEqual "Black wins. - with high card: Ace"
+  }
+
+  it should "win with the 2nd weakest High Card" in {
+    Poker.play("2C 3C 4C 5C 8S", WEAKEST_HAND) shouldEqual "Black wins. - with high card: 8"
   }
 
   //  it should "tie with the strongest hand" in {
