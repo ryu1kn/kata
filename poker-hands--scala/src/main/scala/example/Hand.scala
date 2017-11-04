@@ -5,7 +5,11 @@ case class Hand(cards: List[Card])
 object Hand {
 
   trait HandRank {
-    def unapply(hand: Hand): Option[Hand] = if (isOfRank(hand)) Some(hand) else None
+    def unapply(hand: Hand): Option[Hand] = hand match {
+      case h if isOfRank(h) => Some(h)
+      case _ => None
+    }
+
     protected def isOfRank(hand: Hand): Boolean
   }
 
@@ -15,6 +19,8 @@ object Hand {
 
     private def isSameSuiteIncrement(card1: Card, card2: Card): Boolean =
       card2.suite == card1.suite && card2.intValue == card1.intValue + 1
+
+    def compare(hand1: Hand, hand2: Hand): Int = lastCard(hand1).compare(lastCard(hand2))
   }
 
   object FourOfAKind extends HandRank {

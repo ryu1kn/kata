@@ -15,9 +15,11 @@ object CardValue {
   private def digitToInt(digit: Char): Int = digit - '0'.toInt
 }
 
-case class Card(suite: Char, cardValue: CardValue) {
+case class Card(suite: Char, cardValue: CardValue) extends Ordered[Card] {
   def valueName: String = cardValue.longName
   def intValue: Int = cardValue.value
+
+  override def compare(that: Card): Int = intValue - that.intValue
 }
 
 object Card {
