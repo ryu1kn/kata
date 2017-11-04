@@ -4,6 +4,48 @@ case class Hand(cards: List[Card])
 
 object Hand {
 
+  trait HandRank {
+    def unapply(hand: Hand): Option[Hand] = if (isOfRank(hand)) Some(hand) else None
+    protected def isOfRank(hand: Hand): Boolean
+  }
+
+  object StraightFlush extends HandRank {
+    override def isOfRank(hand: Hand): Boolean =
+      satisfiesRelation(hand.cards, isSameSuiteIncrement)
+
+    private def isSameSuiteIncrement(card1: Card, card2: Card): Boolean =
+      card2.suite == card1.suite && card2.intValue == card1.intValue + 1
+  }
+
+  object FourOfAKind extends HandRank {
+    override def isOfRank(hand: Hand): Boolean = isNOfAKind(hand, 4)
+  }
+
+  object FullHouse extends HandRank {
+    override def isOfRank(hand: Hand): Boolean = hasSameNumberGroups(hand, List(2, 3))
+  }
+
+  object Flush extends HandRank {
+    override def isOfRank(hand: Hand): Boolean = hand.cards.groupBy[Char](card => card.suite).size == 1
+  }
+
+  object Straight extends HandRank {
+    override def isOfRank(hand: Hand): Boolean =
+      satisfiesRelation[Int](hand.cards.map(_.intValue).sorted, (card1, card2) => card2 == card1 + 1)
+  }
+
+  object ThreeOfAKind extends HandRank {
+    override def isOfRank(hand: Hand): Boolean = isNOfAKind(hand, 3)
+  }
+
+  object TwoPairs extends HandRank {
+    override def isOfRank(hand: Hand): Boolean = hasSameNumberGroups(hand, List(1, 2, 2))
+  }
+
+  object Pair extends HandRank {
+    override def isOfRank(hand: Hand): Boolean = hasSameNumberGroups(hand, List(1, 1, 1, 2))
+  }
+
   def create(hand: String): Hand = {
     val cards = hand.split(' ').toList.map { case Card(card) => card }
     Hand(cards)
@@ -11,32 +53,12 @@ object Hand {
 
   def lastCard(hand: Hand): Card = hand.cards.last
 
-  def isStraightFlush(hand: Hand): Boolean = satisfiesRelation(hand.cards, isSameSuiteIncrement)
-
-  def isSameSuiteIncrement(card1: Card, card2: Card): Boolean =
-    card2.suite == card1.suite && card2.intValue == card1.intValue + 1
-
-  def isFourOfAKind(hand: Hand): Boolean = isNOfAKind(hand, 4)
-
   def findMostCommonNumberCard(hand: Hand): Card = {
     val (_, mostCommonNumberCards) = hand.cards
       .groupBy[Int](card => card.intValue)
       .maxBy { case (_, cardList) => cardList.size }
     mostCommonNumberCards.head
   }
-
-  def isFullHouse(hand: Hand): Boolean = hasSameNumberGroups(hand, List(2, 3))
-
-  def isFlush(hand: Hand): Boolean = hand.cards.groupBy[Char](card => card.suite).size == 1
-
-  def isStraight(hand: Hand): Boolean =
-    satisfiesRelation[Int](hand.cards.map(_.intValue).sorted, (card1, card2) => card2 == card1 + 1)
-
-  def isThreeOfAKind(hand: Hand): Boolean = isNOfAKind(hand, 3)
-
-  def isTwoPairs(hand: Hand): Boolean = hasSameNumberGroups(hand, List(1, 2, 2))
-
-  def isPair(hand: Hand): Boolean = hasSameNumberGroups(hand, List(1, 1, 1, 2))
 
   private def isNOfAKind(hand: Hand, n: Int): Boolean =
     hand.cards
