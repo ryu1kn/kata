@@ -90,6 +90,22 @@ class PokerSpec extends FlatSpec with Matchers {
     Poker.play("2C 3C 4C 5C 6C", "TD JD QD KD AD") shouldEqual "White wins. - with straight flush: Ace"
   }
 
+  it should "lose against stronger Four of a Kind" in {
+    Poker.play("JC QC QD QH QS", "KC AC AD AH AS") shouldEqual "White wins. - with four of a kind: Ace"
+  }
+
+  it should "lose against stronger Full House" in {
+    Poker.play("QC QD QH JC JS", "AC AD AH KC KS") shouldEqual "White wins. - with full house: Ace"
+  }
+
+  it should "lose against stronger Flush" in {
+    Poker.play("8C 9C TC JC KC", "9D TD JD QD AD") shouldEqual "White wins. - with flush: Ace"
+  }
+
+  it should "lose against stronger Straight" in {
+    Poker.play("9C TC JC QC KH", "TD JD QD KD AH") shouldEqual "White wins. - with straight: Ace"
+  }
+
   it should "tie with the strongest hand" in {
     Poker.play("TD JD QD KD AD", "TH JH QH KH AH") shouldEqual "Tie"
   }
