@@ -1,7 +1,6 @@
 package example
 
 object Poker {
-
   case class Player(name: String, hand: Hand)
 
   object Player {
@@ -25,5 +24,4 @@ object Poker {
 
   private def buildMessage(winner: String, handName: String, card: Card): String =
     s"$winner wins. - with $handName: ${card.valueName}"
-
 }
