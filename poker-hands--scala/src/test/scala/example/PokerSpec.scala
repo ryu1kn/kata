@@ -39,11 +39,11 @@ class PokerSpec extends FlatSpec with Matchers {
   }
 
   it should "win with the strongest Full House" in {
-    Poker.play("AC AD AH KC KS", WEAKEST_HAND) shouldEqual "Black wins. - with full house: Ace"
+    Poker.play("AC AD AH KC KS", WEAKEST_HAND) shouldEqual "Black wins. - with full house: Ace over King"
   }
 
   it should "win with so so Full House" in {
-    Poker.play("8C 8D 8H KC KS", WEAKEST_HAND) shouldEqual "Black wins. - with full house: 8"
+    Poker.play("8C 8D 8H KC KS", WEAKEST_HAND) shouldEqual "Black wins. - with full house: 8 over King"
   }
 
   it should "win with the strongest Flush" in {
@@ -95,7 +95,7 @@ class PokerSpec extends FlatSpec with Matchers {
   }
 
   it should "lose against stronger Full House" in {
-    Poker.play("QC QD QH JC JS", "AC AD AH KC KS") shouldEqual "White wins. - with full house: Ace"
+    Poker.play("QC QD QH JC JS", "AC AD AH KC KS") shouldEqual "White wins. - with full house: Ace over King"
   }
 
   it should "lose against stronger Flush" in {

@@ -27,13 +27,11 @@ object Hand {
     mostCommonNumberCards.head
   }
 
-  def hasSameNumberGroups(cards: List[Card], groupSizes: List[Int]): Boolean =
+  def sameNumberGroups(cards: List[Card]): List[(Int, String)] =
     cards
       .groupBy[Int](card => card.intValue)
-      .map { case (_, cardList) => cardList.size }
       .toList
-      .sorted match {
-        case `groupSizes` => true
-        case _ => false
-      }
+      .map { case (value, cardList) => (cardList.size, value, cardList.head.valueName) }
+      .sorted.reverse
+      .map { case (groupSize, cardValue, cardValueName) => (groupSize, cardValueName) }
 }
