@@ -122,6 +122,10 @@ class PokerSpec extends FlatSpec with Matchers {
     Poker.play("2C 3C 4C 5C 7S", "2D 3D 4D 7H 6D") shouldEqual "White wins. - with high card: 7"
   }
 
+  it should "lose against Pair that have stronger single card" in {
+    Poker.play("2C 3C 4C 7C 7S", "2D 3D 5D 7H 7D") shouldEqual "White wins. - with pair: 7"
+  }
+
   it should "tie with the strongest hand" in {
     Poker.play("TD JD QD KD AD", "TH JH QH KH AH") shouldEqual "Tie"
   }

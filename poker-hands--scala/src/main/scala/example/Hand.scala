@@ -35,11 +35,21 @@ object Hand {
     mostCommonNumberCards.head
   }
 
-  def sameNumberGroups(cards: List[Card]): List[(Int, String)] =
+  def compareByGroupStrength(hand1: Hand, hand2: Hand): Int = {
+    val hand1Group = sameNumberGroups(hand1.cards).map(_._2)
+    val hand2Group = sameNumberGroups(hand2.cards).map(_._2)
+    hand1Group.zip(hand2Group).foldLeft(0) {
+      case (0, (cardA, cardB)) => cardA.compare(cardB)
+      case (n, _) => n
+    }
+  }
+
+
+  def sameNumberGroups(cards: List[Card]): List[(Int, Card)] =
     cards
       .groupBy[Int](card => card.intValue)
       .toList
-      .map { case (cardValue, cardList) => (cardList.size, cardValue, cardList.head.valueName) }
-      .sorted.reverse
-      .map { case (groupSize, _, cardValueName) => (groupSize, cardValueName) }
+      .map { case (cardValue, cardList) => (cardList.size, cardList.head) }
+      .sortBy[(Int, Int)] { case (groupSize, card) => (groupSize, card.intValue) }
+      .reverse
 }

@@ -52,10 +52,10 @@ case object FourOfAKind extends HandRank {
     case _ => false
   }
 
-  override def description(hand: Hand): String = findMostCommonNumberCard(hand.cards).valueName
-
   override def compare(hand1: Hand, hand2: Hand): Int =
     findMostCommonNumberCard(hand1.cards).compare(findMostCommonNumberCard(hand2.cards))
+
+  override def description(hand: Hand): String = findMostCommonNumberCard(hand.cards).valueName
 }
 
 case object FullHouse extends HandRank {
@@ -66,21 +66,22 @@ case object FullHouse extends HandRank {
     case _ => false
   }
 
-  override def description(hand: Hand): String = sameNumberGroups(hand.cards) match {
-    case List((3, cardName1), (2, cardName2)) => s"$cardName1 over $cardName2"
-  }
-
   override def compare(hand1: Hand, hand2: Hand): Int =
     findMostCommonNumberCard(hand1.cards).compare(findMostCommonNumberCard(hand2.cards))
+
+  override def description(hand: Hand): String = sameNumberGroups(hand.cards) match {
+    case List((3, card1), (2, card2)) => s"${card1.valueName} over ${card2.valueName}"
+  }
 }
 
 case object Flush extends HandRank {
   override val name: String = "flush"
 
   override def isOfRank(cards: List[Card]): Boolean = cards.groupBy[Char](card => card.suite).size == 1
-  override def description(hand: Hand): String = strongestCard(hand).valueName
 
   override def compare(hand1: Hand, hand2: Hand): Int = Hand.compare(hand1, hand2)
+
+  override def description(hand: Hand): String = strongestCard(hand).valueName
 }
 
 case object Straight extends HandRank {
@@ -88,8 +89,10 @@ case object Straight extends HandRank {
 
   override def isOfRank(cards: List[Card]): Boolean =
     forallNeighbours[Int](cards.sorted.map(_.intValue), (card1, card2) => card2 == card1 + 1)
-  override def description(hand: Hand): String = strongestCard(hand).valueName
+
   override def compare(hand1: Hand, hand2: Hand): Int = strongestCard(hand1).compare(strongestCard(hand2))
+
+  override def description(hand: Hand): String = strongestCard(hand).valueName
 }
 
 case object ThreeOfAKind extends HandRank {
@@ -100,10 +103,10 @@ case object ThreeOfAKind extends HandRank {
     case _ => false
   }
 
-  override def description(hand: Hand): String = findMostCommonNumberCard(hand.cards).valueName
-
   override def compare(hand1: Hand, hand2: Hand): Int =
     findMostCommonNumberCard(hand1.cards).compare(findMostCommonNumberCard(hand2.cards))
+
+  override def description(hand: Hand): String = findMostCommonNumberCard(hand.cards).valueName
 }
 
 case object TwoPairs extends HandRank {
@@ -113,10 +116,11 @@ case object TwoPairs extends HandRank {
     case List((2, _), (2, _), _) => true
     case _ => false
   }
-  override def description(hand: Hand): String = findMostCommonNumberCard(hand.cards).valueName
 
   override def compare(hand1: Hand, hand2: Hand): Int =
     findMostCommonNumberCard(hand1.cards).compare(findMostCommonNumberCard(hand2.cards))
+
+  override def description(hand: Hand): String = findMostCommonNumberCard(hand.cards).valueName
 }
 
 case object Pair extends HandRank {
@@ -127,17 +131,17 @@ case object Pair extends HandRank {
     case _ => false
   }
 
-  override def description(hand: Hand): String = findMostCommonNumberCard(hand.cards).valueName
+  override def compare(hand1: Hand, hand2: Hand): Int = Hand.compareByGroupStrength(hand1, hand2)
 
-  override def compare(hand1: Hand, hand2: Hand): Int =
-    findMostCommonNumberCard(hand1.cards).compare(findMostCommonNumberCard(hand2.cards))
+  override def description(hand: Hand): String = findMostCommonNumberCard(hand.cards).valueName
 }
 
 case object HighCard extends HandRank {
   override val name: String = "high card"
 
   override def isOfRank(cards: List[Card]): Boolean = true
-  override def description(hand: Hand): String = strongestCard(hand).valueName
 
   override def compare(hand1: Hand, hand2: Hand): Int = Hand.compare(hand1, hand2)
+
+  override def description(hand: Hand): String = strongestCard(hand).valueName
 }
