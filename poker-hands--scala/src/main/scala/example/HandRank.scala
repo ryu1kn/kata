@@ -80,7 +80,11 @@ case object Flush extends HandRank {
   override def isOfRank(cards: List[Card]): Boolean = cards.groupBy[Char](card => card.suite).size == 1
   override def description(hand: Hand): String = lastCard(hand).valueName
 
-  override def compare(hand1: Hand, hand2: Hand): Int = lastCard(hand1).compare(lastCard(hand2))
+  override def compare(hand1: Hand, hand2: Hand): Int =
+    hand1.cards.zip(hand2.cards).foldRight(0) {
+      case ((cardA, cardB), 0) => cardA compare cardB
+      case (_, n) => n
+    }
 }
 
 case object Straight extends HandRank {
