@@ -1,6 +1,8 @@
 package example
 
-case class CardValue(value: Int, longName: String)
+case class CardValue(value: Int, longName: String) extends Ordered[CardValue] {
+  override def compare(that: CardValue): Int = value.compare(that.value)
+}
 
 object CardValue {
   def create(symbol: Char): CardValue = symbol match {
@@ -19,7 +21,7 @@ case class Card(suite: Char, cardValue: CardValue) extends Ordered[Card] {
   def valueName: String = cardValue.longName
   def intValue: Int = cardValue.value
 
-  override def compare(that: Card): Int = intValue - that.intValue
+  override def compare(that: Card): Int = cardValue.compare(that.cardValue)
 }
 
 object Card {

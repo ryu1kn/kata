@@ -12,13 +12,21 @@ case class Hand(rank: HandRank, cards: List[Card]) extends Ordered[Hand] {
 
 object Hand {
   def create(cardsStr: String): Hand = {
-    val cards = cardsStr.split(" ").toList.map(Card.create)
-    HandRank.ranks.find(_.isOfRank(cards)) match {
-      case Some(rank) => Hand(rank, cards)
+    val sortedCards = cardsStr.split(" ").toList
+      .map(Card.create)
+      .sorted
+    HandRank.ranks.find(_.isOfRank(sortedCards)) match {
+      case Some(rank) => Hand(rank, sortedCards)
     }
   }
 
-  def lastCard(hand: Hand): Card = hand.cards.last
+  def strongestCard(hand: Hand): Card = hand.cards.max
+
+  def compare(hand1: Hand, hand2: Hand): Int =
+    hand1.cards.zip(hand2.cards).foldRight(0) {
+      case ((cardA, cardB), 0) => cardA.compare(cardB)
+      case (_, n) => n
+    }
 
   def findMostCommonNumberCard(cards: List[Card]): Card = {
     val (_, mostCommonNumberCards) = cards
@@ -31,7 +39,7 @@ object Hand {
     cards
       .groupBy[Int](card => card.intValue)
       .toList
-      .map { case (value, cardList) => (cardList.size, value, cardList.head.valueName) }
+      .map { case (cardValue, cardList) => (cardList.size, cardValue, cardList.head.valueName) }
       .sorted.reverse
-      .map { case (groupSize, cardValue, cardValueName) => (groupSize, cardValueName) }
+      .map { case (groupSize, _, cardValueName) => (groupSize, cardValueName) }
 }

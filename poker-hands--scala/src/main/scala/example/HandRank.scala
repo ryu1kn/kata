@@ -39,9 +39,9 @@ case object StraightFlush extends HandRank {
   private def isSameSuiteIncrement(card1: Card, card2: Card): Boolean =
     card2.suite == card1.suite && card2.intValue == card1.intValue + 1
 
-  override def compare(hand1: Hand, hand2: Hand): Int = lastCard(hand1).compare(lastCard(hand2))
+  override def compare(hand1: Hand, hand2: Hand): Int = strongestCard(hand1).compare(strongestCard(hand2))
 
-  override def description(hand: Hand): String = lastCard(hand).valueName
+  override def description(hand: Hand): String = strongestCard(hand).valueName
 }
 
 case object FourOfAKind extends HandRank {
@@ -78,22 +78,18 @@ case object Flush extends HandRank {
   override val name: String = "flush"
 
   override def isOfRank(cards: List[Card]): Boolean = cards.groupBy[Char](card => card.suite).size == 1
-  override def description(hand: Hand): String = lastCard(hand).valueName
+  override def description(hand: Hand): String = strongestCard(hand).valueName
 
-  override def compare(hand1: Hand, hand2: Hand): Int =
-    hand1.cards.zip(hand2.cards).foldRight(0) {
-      case ((cardA, cardB), 0) => cardA compare cardB
-      case (_, n) => n
-    }
+  override def compare(hand1: Hand, hand2: Hand): Int = Hand.compare(hand1, hand2)
 }
 
 case object Straight extends HandRank {
   override val name: String = "straight"
 
   override def isOfRank(cards: List[Card]): Boolean =
-    forallNeighbours[Int](cards.map(_.intValue).sorted, (card1, card2) => card2 == card1 + 1)
-  override def description(hand: Hand): String = lastCard(hand).valueName
-  override def compare(hand1: Hand, hand2: Hand): Int = lastCard(hand1).compare(lastCard(hand2))
+    forallNeighbours[Int](cards.sorted.map(_.intValue), (card1, card2) => card2 == card1 + 1)
+  override def description(hand: Hand): String = strongestCard(hand).valueName
+  override def compare(hand1: Hand, hand2: Hand): Int = strongestCard(hand1).compare(strongestCard(hand2))
 }
 
 case object ThreeOfAKind extends HandRank {
@@ -141,7 +137,7 @@ case object HighCard extends HandRank {
   override val name: String = "high card"
 
   override def isOfRank(cards: List[Card]): Boolean = true
-  override def description(hand: Hand): String = lastCard(hand).valueName
+  override def description(hand: Hand): String = strongestCard(hand).valueName
 
-  override def compare(hand1: Hand, hand2: Hand): Int = lastCard(hand1).compare(lastCard(hand2))
+  override def compare(hand1: Hand, hand2: Hand): Int = Hand.compare(hand1, hand2)
 }
