@@ -28,12 +28,8 @@ object Hand {
       case (_, n) => n
     }
 
-  def findMostCommonNumberCard(cards: List[Card]): Card = {
-    val (_, mostCommonNumberCards) = cards
-      .groupBy[Int](card => card.intValue)
-      .maxBy { case (_, cardList) => cardList.size }
-    mostCommonNumberCards.head
-  }
+  def findStrongestCommonNumberCard(cards: List[Card]): Card =
+    sameNumberGroups(cards).head match { case (_, card) => card }
 
   def compareByGroupStrength(hand1: Hand, hand2: Hand): Int = {
     val hand1Group = sameNumberGroups(hand1.cards).map(_._2)
@@ -43,7 +39,6 @@ object Hand {
       case (n, _) => n
     }
   }
-
 
   def sameNumberGroups(cards: List[Card]): List[(Int, Card)] =
     cards
