@@ -22,12 +22,6 @@ object Hand {
 
   def strongestCard(hand: Hand): Card = hand.cards.max
 
-  def compare(hand1: Hand, hand2: Hand): Int =
-    hand1.cards.zip(hand2.cards).foldRight(0) {
-      case ((cardA, cardB), 0) => cardA.compare(cardB)
-      case (_, n) => n
-    }
-
   def findStrongestCommonNumberCard(cards: List[Card]): Card =
     sameNumberGroups(cards).head match { case (_, card) => card }
 
