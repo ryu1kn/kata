@@ -39,7 +39,7 @@ case object StraightFlush extends HandRank {
     forallNeighbours(cards, isSameSuiteIncrement)
 
   private def isSameSuiteIncrement(card1: Card, card2: Card): Boolean =
-    card2.suite == card1.suite && card2.intValue == card1.intValue + 1
+    Card.isSameSuite(card1, card2) && Card.isIncrementOf(card1, card2)
 
   override def handDescription(hand: Hand): String = strongestCard(hand).valueName
 }
@@ -71,7 +71,7 @@ case object FullHouse extends HandRank {
 case object Flush extends HandRank {
   override val name: String = "flush"
 
-  override def isOfRank(cards: List[Card]): Boolean = cards.groupBy[Char](card => card.suite).size == 1
+  override def isOfRank(cards: List[Card]): Boolean = forallNeighbours[Card](cards, Card.isSameSuite)
 
   override def handDescription(hand: Hand): String = strongestCard(hand).valueName
 }
@@ -79,8 +79,7 @@ case object Flush extends HandRank {
 case object Straight extends HandRank {
   override val name: String = "straight"
 
-  override def isOfRank(cards: List[Card]): Boolean =
-    forallNeighbours[Int](cards.sorted.map(_.intValue), (card1, card2) => card2 == card1 + 1)
+  override def isOfRank(cards: List[Card]): Boolean = forallNeighbours[Card](cards, Card.isIncrementOf)
 
   override def handDescription(hand: Hand): String = strongestCard(hand).valueName
 }

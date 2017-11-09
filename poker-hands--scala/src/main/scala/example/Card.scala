@@ -26,4 +26,8 @@ case class Card(suite: Char, cardValue: CardValue) extends Ordered[Card] {
 
 object Card {
   def create(card: String): Card = Card(card.charAt(1), CardValue.create(card.charAt(0)))
+
+  def isSameSuite(cardA: Card, cardB: Card): Boolean = cardA.suite == cardB.suite
+
+  def isIncrementOf(cardA: Card, cardB: Card): Boolean = cardA.intValue + 1 == cardB.intValue
 }
