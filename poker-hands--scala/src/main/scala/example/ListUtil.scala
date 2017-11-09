@@ -1,6 +1,6 @@
 package example
 
-object Util {
+object ListUtil {
   def forallNeighbours[A](list: List[A], f: (A, A) => Boolean): Boolean =
     list.zipWithIndex.forall {
       case (_, 0) => true

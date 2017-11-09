@@ -1,6 +1,6 @@
 package example
 
-import example.Util._
+import example.ListUtil._
 import Card._
 
 object HandRank {
@@ -24,7 +24,7 @@ object HandRank {
 sealed trait HandRank {
   protected val name: String
 
-  def isOfRank(cards: List[Card]): Boolean
+  protected def isOfRank(cards: List[Card]): Boolean
 
   def compare(handA: Hand, handB: Hand): Int = {
     val handAStrengths = sameNumberGroups(handA.cards).map(_._2)
