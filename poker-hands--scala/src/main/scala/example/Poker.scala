@@ -17,11 +17,9 @@ object Poker {
     val player2 = Player("White", Hand.create(hand2))
 
     Player.getWinner(player1, player2) match {
-      case Some(Player(name, hand)) => buildMessage(name, hand.rank.name, hand.rank.description(hand))
+      case Some(Player(name, hand)) => s"$name wins. - with ${hand.rank.description(hand)}"
       case None => "Tie"
     }
   }
 
-  private def buildMessage(winner: String, handName: String, description: String): String =
-    s"$winner wins. - with $handName: $description"
 }
