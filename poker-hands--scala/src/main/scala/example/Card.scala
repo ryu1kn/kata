@@ -30,4 +30,15 @@ object Card {
   def isSameSuite(cardA: Card, cardB: Card): Boolean = cardA.suite == cardB.suite
 
   def isIncrementOf(cardA: Card, cardB: Card): Boolean = cardA.intValue + 1 == cardB.intValue
+
+  def strongestCommonCard(cards: List[Card]): Card =
+    sameNumberGroups(cards).head match { case (_, card) => card }
+
+  def sameNumberGroups(cards: List[Card]): List[(Int, Card)] =
+    cards
+      .groupBy[Int](card => card.intValue)
+      .toList
+      .map { case (_, cardList) => (cardList.size, cardList.head) }
+      .sortBy[(Int, Int)] { case (groupSize, card) => (groupSize, card.intValue) }
+      .reverse
 }

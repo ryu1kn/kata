@@ -1,7 +1,7 @@
 package example
 
 import example.Util._
-import Hand._
+import Card._
 
 object HandRank {
   val ranks = List(
@@ -16,8 +16,9 @@ object HandRank {
     HighCard
   )
 
-  def compare(rank1: HandRank, rank2: HandRank): Int =
-    ranks.indexOf(rank2).compare(ranks.indexOf(rank1))
+  def findRankFor(cards: List[Card]): HandRank = ranks.find(_.isOfRank(cards)).get
+
+  def compareRanks(rank1: HandRank, rank2: HandRank): Int = comparePosition(ranks, rank2, rank1)
 }
 
 sealed trait HandRank {

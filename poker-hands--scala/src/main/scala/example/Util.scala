@@ -12,4 +12,7 @@ object Util {
       case (0, (elem1, elem2)) => elem1.compare(elem2)
       case (n, _) => n
     }
+
+  def comparePosition[A](list: List[A], elem1: A, elem2: A): Int =
+    list.indexOf(elem1).compare(list.indexOf(elem2))
 }
