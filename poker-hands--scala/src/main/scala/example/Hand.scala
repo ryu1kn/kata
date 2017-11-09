@@ -2,11 +2,8 @@ package example
 
 case class Hand(rank: HandRank, cards: List[Card]) extends Ordered[Hand] {
   override def compare(that: Hand): Int = (this, that) match {
-    case (hand1@Hand(rank1, _), hand2@Hand(rank2, _)) =>
-      HandRank.compare(rank1, rank2) match {
-        case 0 => rank1.compare(hand1, hand2)
-        case x => x
-      }
+    case (Hand(rank1, _), Hand(rank2, _)) if rank1 != rank2 => HandRank.compare(rank1, rank2)
+    case (hand1@Hand(rank, _), hand2) => rank.compare(hand1, hand2)
   }
 }
 
@@ -20,25 +17,14 @@ object Hand {
     }
   }
 
-  def strongestCard(hand: Hand): Card = hand.cards.max
-
-  def findStrongestCommonNumberCard(cards: List[Card]): Card =
+  def strongestCommonCard(cards: List[Card]): Card =
     sameNumberGroups(cards).head match { case (_, card) => card }
-
-  def compareByGroupStrength(hand1: Hand, hand2: Hand): Int = {
-    val hand1Group = sameNumberGroups(hand1.cards).map(_._2)
-    val hand2Group = sameNumberGroups(hand2.cards).map(_._2)
-    hand1Group.zip(hand2Group).foldLeft(0) {
-      case (0, (cardA, cardB)) => cardA.compare(cardB)
-      case (n, _) => n
-    }
-  }
 
   def sameNumberGroups(cards: List[Card]): List[(Int, Card)] =
     cards
       .groupBy[Int](card => card.intValue)
       .toList
-      .map { case (cardValue, cardList) => (cardList.size, cardList.head) }
+      .map { case (_, cardList) => (cardList.size, cardList.head) }
       .sortBy[(Int, Int)] { case (groupSize, card) => (groupSize, card.intValue) }
       .reverse
 }

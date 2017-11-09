@@ -1,6 +1,6 @@
 package example
 
-import example.Util.forallNeighbours
+import example.Util._
 import Hand._
 
 object HandRank {
@@ -25,7 +25,11 @@ sealed trait HandRank {
 
   def isOfRank(cards: List[Card]): Boolean
 
-  def compare(handA: Hand, handB: Hand): Int = Hand.compareByGroupStrength(handA, handB)
+  def compare(handA: Hand, handB: Hand): Int = {
+    val handAStrengths = sameNumberGroups(handA.cards).map(_._2)
+    val handBStrengths = sameNumberGroups(handB.cards).map(_._2)
+    compareHeadToTail(handAStrengths, handBStrengths)
+  }
 
   def description(hand: Hand): String = s"$name: ${handDescription(hand)}"
 
@@ -35,13 +39,12 @@ sealed trait HandRank {
 case object StraightFlush extends HandRank {
   override val name: String = "straight flush"
 
-  override def isOfRank(cards: List[Card]): Boolean =
-    forallNeighbours(cards, isSameSuiteIncrement)
+  override def isOfRank(cards: List[Card]): Boolean = forallNeighbours(cards, isSameSuiteIncrement)
 
   private def isSameSuiteIncrement(card1: Card, card2: Card): Boolean =
     Card.isSameSuite(card1, card2) && Card.isIncrementOf(card1, card2)
 
-  override def handDescription(hand: Hand): String = strongestCard(hand).valueName
+  override def handDescription(hand: Hand): String = strongestCommonCard(hand.cards).valueName
 }
 
 case object FourOfAKind extends HandRank {
@@ -52,7 +55,7 @@ case object FourOfAKind extends HandRank {
     case _ => false
   }
 
-  override def handDescription(hand: Hand): String = findStrongestCommonNumberCard(hand.cards).valueName
+  override def handDescription(hand: Hand): String = strongestCommonCard(hand.cards).valueName
 }
 
 case object FullHouse extends HandRank {
@@ -73,7 +76,7 @@ case object Flush extends HandRank {
 
   override def isOfRank(cards: List[Card]): Boolean = forallNeighbours[Card](cards, Card.isSameSuite)
 
-  override def handDescription(hand: Hand): String = strongestCard(hand).valueName
+  override def handDescription(hand: Hand): String = strongestCommonCard(hand.cards).valueName
 }
 
 case object Straight extends HandRank {
@@ -81,7 +84,7 @@ case object Straight extends HandRank {
 
   override def isOfRank(cards: List[Card]): Boolean = forallNeighbours[Card](cards, Card.isIncrementOf)
 
-  override def handDescription(hand: Hand): String = strongestCard(hand).valueName
+  override def handDescription(hand: Hand): String = strongestCommonCard(hand.cards).valueName
 }
 
 case object ThreeOfAKind extends HandRank {
@@ -92,7 +95,7 @@ case object ThreeOfAKind extends HandRank {
     case _ => false
   }
 
-  override def handDescription(hand: Hand): String = findStrongestCommonNumberCard(hand.cards).valueName
+  override def handDescription(hand: Hand): String = strongestCommonCard(hand.cards).valueName
 }
 
 case object TwoPairs extends HandRank {
@@ -103,7 +106,7 @@ case object TwoPairs extends HandRank {
     case _ => false
   }
 
-  override def handDescription(hand: Hand): String = findStrongestCommonNumberCard(hand.cards).valueName
+  override def handDescription(hand: Hand): String = strongestCommonCard(hand.cards).valueName
 }
 
 case object Pair extends HandRank {
@@ -114,7 +117,7 @@ case object Pair extends HandRank {
     case _ => false
   }
 
-  override def handDescription(hand: Hand): String = findStrongestCommonNumberCard(hand.cards).valueName
+  override def handDescription(hand: Hand): String = strongestCommonCard(hand.cards).valueName
 }
 
 case object HighCard extends HandRank {
@@ -122,5 +125,5 @@ case object HighCard extends HandRank {
 
   override def isOfRank(cards: List[Card]): Boolean = true
 
-  override def handDescription(hand: Hand): String = strongestCard(hand).valueName
+  override def handDescription(hand: Hand): String = strongestCommonCard(hand.cards).valueName
 }
