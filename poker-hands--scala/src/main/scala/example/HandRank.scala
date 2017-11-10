@@ -52,7 +52,7 @@ case object FourOfAKind extends HandRank {
   override val name: String = "four of a kind"
 
   override def isOfRank(cards: List[Card]): Boolean = sameNumberGroups(cards) match {
-    case List((4, _), _) => true
+    case (4, _) :: _ => true
     case _ => false
   }
 
@@ -63,7 +63,7 @@ case object FullHouse extends HandRank {
   override val name: String = "full house"
 
   override def isOfRank(cards: List[Card]): Boolean = sameNumberGroups(cards) match {
-    case List((3, _), (2, _)) => true
+    case (3, _) :: (2, _) :: _ => true
     case _ => false
   }
 
@@ -92,7 +92,7 @@ case object ThreeOfAKind extends HandRank {
   override val name: String = "three of a kind"
 
   override def isOfRank(cards: List[Card]): Boolean = sameNumberGroups(cards) match {
-    case List((3, _), _*) => true
+    case (3, _) :: _ => true
     case _ => false
   }
 
@@ -103,7 +103,7 @@ case object TwoPairs extends HandRank {
   override val name: String = "two pairs"
 
   override def isOfRank(cards: List[Card]): Boolean = sameNumberGroups(cards) match {
-    case List((2, _), (2, _), _) => true
+    case (2, _) :: (2, _) :: _ => true
     case _ => false
   }
 
@@ -114,7 +114,7 @@ case object Pair extends HandRank {
   override val name: String = "pair"
 
   override def isOfRank(cards: List[Card]): Boolean = sameNumberGroups(cards) match {
-    case List((2, _), _*) => true
+    case (2, _) :: _ => true
     case _ => false
   }
 

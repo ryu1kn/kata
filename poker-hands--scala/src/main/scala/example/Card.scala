@@ -36,7 +36,7 @@ object Card {
 
   def sameNumberGroups(cards: List[Card]): List[(Int, Card)] =
     cards
-      .groupBy[Int](card => card.intValue)
+      .groupBy(card => card.intValue)
       .toList
       .map { case (_, cardList) => (cardList.size, cardList.head) }
       .sortBy[(Int, Int)] { case (groupSize, card) => (groupSize, card.intValue) }
