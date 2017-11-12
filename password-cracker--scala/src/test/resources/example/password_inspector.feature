@@ -5,7 +5,6 @@ Feature: Password check
     Given the following passwords are registered in the system: <registered passwords>
     When I try to login with the password <login attempt>
     Then I should get the following passwords that can construct the password I entered: <passwords used>
-
     Examples:
       | login attempt              | registered passwords                | passwords used                           |
       | password                   | password                            | password                                 |
@@ -18,3 +17,13 @@ Feature: Password check
       | abcd                       | ab, abcd, cd                        | ab, cd                                   |
       | zfzahm                     | ozkxyhkcst, xvglh, hpdnb, zfzahm    | zfzahm                                   |
       | gurwgrb                    | gurwgrb, maqz, holpkhqx, aowypvopum | gurwgrb                                  |
+
+  Scenario Outline: Login attempt cannot be broken down into passwords
+    Given the following passwords are registered in the system: <registered passwords>
+    When I try to login with the password <login attempt>
+    Then I should be unable to get passwords that can construct the password I entered
+    Examples:
+      | login attempt | registered passwords                                                      |
+      | attempt       | password                                                                  |
+      | helloworld    | hello, planet                                                             |
+      | aaaaaaaaaab   | a, aa, aaa, aaaa, aaaaa, aaaaaa, aaaaaaa, aaaaaaaa, aaaaaaaaa, aaaaaaaaaa |

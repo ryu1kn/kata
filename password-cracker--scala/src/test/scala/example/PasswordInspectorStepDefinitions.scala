@@ -26,4 +26,11 @@ class PasswordInspectorStepDefinitions extends ScalaDsl with EN with Matchers {
     decompose(loginAttempt, passwords) shouldEqual Some(expectedPasswords)
   }
 
+  Then("""^I should be unable to get passwords that can construct the password I entered""") { () =>
+    val passwords = context.get("passwords").get.split(", ").toList
+    val loginAttempt = context.get("loginAttempt").get
+
+    decompose(loginAttempt, passwords) shouldEqual None
+  }
+
 }
