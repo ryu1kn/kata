@@ -8,5 +8,9 @@ lazy val root = (project in file(".")).
       version      := "0.1.0-SNAPSHOT"
     )),
     name := "kata--password-cracker",
-    libraryDependencies += scalaTest % Test
+    libraryDependencies ++= Seq(
+      scalaTest % Test,
+      cucumber % Test,
+      cucumberJunit % Test
+    )
   )
