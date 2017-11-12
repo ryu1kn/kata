@@ -2,12 +2,12 @@ name:                kata-bowling-game
 version:             0.1.0.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/githubuser/kata-bowling-game#readme
+homepage:            https://github.com/ryu1kn/kata
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2017 Author name here
+author:              Ryuichi Inagaki
+maintainer:          ryuichi.inagaki.24@googlemail.com
+copyright:           2017 Ryuichi Inagaki
 category:            Web
 build-type:          Simple
 extra-source-files:  README.md
@@ -39,4 +39,4 @@ test-suite kata-bowling-game-test
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/kata-bowling-game
+  location: https://github.com/ryu1kn/kata
