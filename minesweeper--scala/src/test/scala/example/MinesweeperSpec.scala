@@ -30,7 +30,6 @@ class MinesweeperSpec extends FlatSpec with Matchers {
     Minesweeper.fillNumbers(input) shouldEqual expected
   }
 
-
   it should "fill numbers for simple board" in {
     val input = convertToBoard(List(
       "*...",
