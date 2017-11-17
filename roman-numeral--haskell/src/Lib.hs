@@ -6,9 +6,9 @@ import Data.Char
 
 encode :: Int -> String
 encode x
-    | x < 4 = take x $ repeat 'I'
+    | x < 4 = replicate x 'I'
     | otherwise = aroundV x
     where
-        aroundV x = let leftI = take (min (5 - x) 1) $ repeat 'I'
-                        rightI = take (max (x - 5) 0) $ repeat 'I'
+        aroundV x = let leftI = replicate (min (5 - x) 1) 'I'
+                        rightI = replicate (max (x - 5) 0) 'I'
                     in leftI ++ "V" ++ rightI

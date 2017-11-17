@@ -14,7 +14,7 @@ buildWordTree :: String -> [String] -> WordTree
 buildWordTree attempt passwords = WordTree "" $ buildSubTreeList attempt passwords
     where
         buildSubTreeList attempt passwords =
-            map (buildSubTree attempt passwords) $ filter (\x -> isPrefixOf x attempt) passwords
+            map (buildSubTree attempt passwords) $ filter (`isPrefixOf` attempt) passwords
         buildSubTree attempt passwords pwd = WordTree pwd $ buildSubTreeList (removePrefix pwd attempt) passwords
         removePrefix prefix = drop $ length prefix
 
