@@ -2,8 +2,8 @@ module Lib
     ( decompose
     ) where
 
-import Data.List
-import Data.Foldable (concatMap)
+import           Data.Foldable (concatMap)
+import           Data.List
 
 data WordTree = WordTree String [WordTree]
 
@@ -11,11 +11,11 @@ decompose :: String -> [String] -> Maybe [String]
 decompose attempt passwords = findFullGrownBranch attempt $ buildWordTree attempt passwords
 
 buildWordTree :: String -> [String] -> WordTree
-buildWordTree attempt passwords = WordTree "" $ buildSubTreeList attempt passwords
+buildWordTree attempt passwords = WordTree "" $ buildSubTreeList attempt
     where
-        buildSubTreeList attempt passwords =
-            map (buildSubTree attempt passwords) $ filter (`isPrefixOf` attempt) passwords
-        buildSubTree attempt passwords pwd = WordTree pwd $ buildSubTreeList (removePrefix pwd attempt) passwords
+        buildSubTreeList attempt =
+            map (buildSubTree attempt) $ filter (`isPrefixOf` attempt) passwords
+        buildSubTree attempt pwd = WordTree pwd $ buildSubTreeList (removePrefix pwd attempt)
         removePrefix prefix = drop $ length prefix
 
 findFullGrownBranch :: String -> WordTree -> Maybe [String]
