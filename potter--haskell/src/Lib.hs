@@ -3,4 +3,5 @@ module Lib
     ) where
 
 price :: [Int] -> Double
-price _ = 0
+price [] = 0
+price [_] = 8
