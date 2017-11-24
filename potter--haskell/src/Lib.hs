@@ -3,5 +3,4 @@ module Lib
     ) where
 
 price :: [Int] -> Double
-price [] = 0
-price [_] = 8
+price x = (* 8.0) $ fromIntegral $ length x
