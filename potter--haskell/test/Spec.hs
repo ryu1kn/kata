@@ -14,3 +14,6 @@ spec = describe "price" $ do
 
     it "returns the price of 2 books if they are the same" $
         price [0, 0] `shouldBe` 16
+
+    it "applies discount if bought 2 different books" $
+        price [0, 1] `shouldBe` 8 * 2 * (1 - 0.05)
