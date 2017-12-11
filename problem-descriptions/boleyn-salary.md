@@ -33,15 +33,15 @@ https://www.hackerrank.com/challenges/boleyn-salary/problem
 >
 > ## Constraints
 >
-> 1 ≤ N ≤ 3*10^4
-> 1 ≤ Q ≤ 3*10^4
-> 1 ≤ s[i] ≤ 10^9, i ∈ [1..N]
-> s[i] ≠ s[j], 1 ≤ i < j ≤ N
-> 1 ≤ u, p ≤ N, u ≠ p
-> -N ≤ d ≤ N
-> For 1st query, 1 ≤ v ≤ N
-> For later queries, 1 ≤ v+d ≤ N
-> For each query, 1 ≤ K ≤ Number_of_subordinates
+> * 1 ≤ N ≤ 3*10^4
+> * 1 ≤ Q ≤ 3*10^4
+> * 1 ≤ s[i] ≤ 10^9, i ∈ [1..N]
+> * s[i] ≠ s[j], 1 ≤ i < j ≤ N
+> * 1 ≤ u, p ≤ N, u ≠ p
+> * -N ≤ d ≤ N
+> * For 1st query, 1 ≤ v ≤ N
+> * For later queries, 1 ≤ v+d ≤ N
+> * For each query, 1 ≤ K ≤ Number_of_subordinates
 >
 > ## Sample Input
 >
