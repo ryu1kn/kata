@@ -7,16 +7,15 @@ class BuildHierarchyStepDefinitions extends ScalaDsl with EN with Matchers {
 
   import example.PyramidBuilder._
 
-  private var context: Map[String,String] = Map()
+  private var member: Int = -1
+  private var superior: Int = -1
 
   Given("""^"([^"]+)" is superior of "([^"]+)"$""") { (superior: String, member: String) =>
-    context += ("member" -> member, "superior" -> superior)
+    this.member = member.toInt
+    this.superior = superior.toInt
   }
 
   Then("""^I see the structure: (.*)$""") { (structure: String) =>
-    val member = context("member").toInt
-    val superior = context("superior").toInt
-
     buildHierarchy(member, superior).toString shouldEqual structure
   }
 
