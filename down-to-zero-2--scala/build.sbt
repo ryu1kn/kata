@@ -14,3 +14,7 @@ lazy val root = (project in file(".")).settings(
     cucumberJunit % Test
   )
 )
+
+enablePlugins(CucumberPlugin)
+
+CucumberPlugin.glue := "example"
