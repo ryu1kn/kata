@@ -8,3 +8,6 @@ Feature: Find minimum move
       | input | minimum move |
       |     0 |            0 |
       |     1 |            1 |
+      |     4 |            3 |
+      |     5 |            4 |
+      |    25 |            5 |
