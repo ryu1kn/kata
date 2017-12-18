@@ -11,3 +11,4 @@ Feature: Find minimum move
       |     4 |            3 |
       |     5 |            4 |
       |    25 |            5 |
+      #|    82 |            6 | # This is failing
