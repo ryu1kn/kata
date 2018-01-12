@@ -9,3 +9,4 @@
 * [Password Cracker](./problem-descriptions/password-cracker.md)
 * [Boleyn Salary](./problem-descriptions/boleyn-salary.md)
 * [Down to Zero II](./problem-descriptions/down-to-zero-2.md)
+* [Number of Binary Search Tree](./problem-descriptions/number-of-binary-search-tree.md)
