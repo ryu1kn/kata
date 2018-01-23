@@ -4,7 +4,7 @@ https://www.hackerrank.com/challenges/prison-transport/problem
 
 > There are N inmates numbered between [1, N] in a prison. These inmates have superhuman strength because they have drunk a special concoction made by Dr. Evil. They have to be transported by some buses to a new facility. But they are bound by special chains which are made from strong carbon fibres. Each inmate is either chained alone or is chained in a group along with one or more inmates. A group of inmates are those who are directly or indirectly connected to each other. Only one group can be transported per bus.
 >
-> There are buses which will charge fixed amount bucks for transferring inmates. Charges are directly proportional to the capacity of bus. If a bus charge K bucks then it can carry upto K2 inmates at one time. Buses are available for all positive integral cost ranging from [1, 2, 3, ...]. A bus can be used multiple times, and each time it will charge. Note that a bus can also transfer less number of inmates than it's capacity.
+> There are buses which will charge fixed amount bucks for transferring inmates. Charges are directly proportional to the capacity of bus. If a bus charge K bucks then it can carry upto K^2 inmates at one time. Buses are available for all positive integral cost ranging from [1, 2, 3, ...]. A bus can be used multiple times, and each time it will charge. Note that a bus can also transfer less number of inmates than it's capacity.
 >
 > Find the minimal cost to transport all the inmates.
 >
