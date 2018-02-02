@@ -11,3 +11,4 @@
 * [Down to Zero II](./problem-descriptions/down-to-zero-2.md)
 * [Number of Binary Search Tree](./problem-descriptions/number-of-binary-search-tree.md)
 * [Prison Transport](./problem-descriptions/prison-transport.md)
+* [Jenny's Subtrees](./problem-descriptions/jennys-subtrees.md)
