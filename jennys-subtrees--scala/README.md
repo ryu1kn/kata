@@ -1,5 +1,5 @@
 
-# Prison Transport
+# Jenny's Subtrees
 
 ```sh
 $ sbt test
