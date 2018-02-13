@@ -12,3 +12,5 @@
 * [Number of Binary Search Tree](./problem-descriptions/number-of-binary-search-tree.md)
 * [Prison Transport](./problem-descriptions/prison-transport.md)
 * [Jenny's Subtrees](./problem-descriptions/jennys-subtrees.md)
+* [Coloured Triangles](./problem-descriptions/coloured-triangles.md)
+
