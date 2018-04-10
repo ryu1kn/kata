@@ -13,4 +13,5 @@
 * [Prison Transport](./problem-descriptions/prison-transport.md)
 * [Jenny's Subtrees](./problem-descriptions/jennys-subtrees.md)
 * [Coloured Triangles](./problem-descriptions/coloured-triangles.md)
+* [The Hunger Games - Foxes and Chickens](./problem-descriptions/hunger-games.md)
 
