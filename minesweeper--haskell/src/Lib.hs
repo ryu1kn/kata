@@ -6,7 +6,9 @@ import           Data.Char
 
 {-# ANN module "HLint: ignore Use String" #-}
 
-fillNumbers :: [[Char]] -> [[Char]]
+type Board = [[Char]]
+
+fillNumbers :: Board -> Board
 fillNumbers board =
     [ [ countSurroundingBombs (i, j) board
       | j <- [0 .. length (board!!i) - 1]
@@ -14,15 +16,22 @@ fillNumbers board =
     | i <- [0 .. length board - 1]
     ]
 
-countSurroundingBombs :: (Int, Int) -> [[Char]] -> Char
+countSurroundingBombs :: (Int, Int) -> Board -> Char
 countSurroundingBombs (i, j) board
     | board !! i !! j == '*' = '*'
-    | otherwise =
-        let subBoard = [ board !! x !! y
-                       | x <- [max 0 (i-1)..min (length board - 1) (i+1)]
-                       , y <- [max 0 (j-1)..min (length (board!!x) - 1) (j+1)]
-                       ]
-        in toDigit . countBombs $ subBoard
-  where
-    countBombs = length . filter (== '*')
-    toDigit = chr . (+48)
+    | otherwise = (intToDigit . count '*' . crop (i,j)) board
+
+crop :: (Int,Int) -> (Board -> Board)
+crop (i,j) b = let (m,n) = size b
+               in (fmap (takeAdjacent j n) . takeAdjacent i m) b
+
+count :: Eq a => a -> ([[a]] -> Int)
+count c = length . filter (== c) . concat
+
+takeAdjacent :: Int -> Int -> ([a] -> [a])
+takeAdjacent i m = drop low . take high
+  where low  = max 0 (i-1)
+        high = min m (i+2)
+
+size :: [[a]] -> (Int,Int)
+size b = (length b, length (head b))
