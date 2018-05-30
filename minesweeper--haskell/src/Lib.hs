@@ -10,11 +10,19 @@ type Board = [[Char]]
 
 fillNumbers :: Board -> Board
 fillNumbers board =
-    [ [ countSurroundingBombs (i, j) board
-      | j <- [0 .. length (board!!i) - 1]
+    [ [ countSurroundingBombs (i, j) (extendBoard board)
+      | j <- [1 .. columns]
       ]
-    | i <- [0 .. length board - 1]
+    | i <- [1 .. rows]
     ]
+    where rows = length board
+          columns = length (head board)
+
+extendBoard :: Board -> Board
+extendBoard b = [emptyRow]
+                ++ fmap (("." ++) . (++ ".")) b
+                ++ [emptyRow]
+    where emptyRow = replicate (length (head b) + 2) '.'
 
 countSurroundingBombs :: (Int, Int) -> Board -> Char
 countSurroundingBombs (i, j) board
@@ -22,16 +30,10 @@ countSurroundingBombs (i, j) board
     | otherwise = (intToDigit . count '*' . crop (i,j)) board
 
 crop :: (Int,Int) -> (Board -> Board)
-crop (i,j) b = let (m,n) = size b
-               in (fmap (takeAdjacent j n) . takeAdjacent i m) b
+crop (i,j) = fmap (takeAdjacent j) . takeAdjacent i
 
 count :: Eq a => a -> ([[a]] -> Int)
 count c = length . filter (== c) . concat
 
-takeAdjacent :: Int -> Int -> ([a] -> [a])
-takeAdjacent i m = drop low . take high
-  where low  = max 0 (i-1)
-        high = min m (i+2)
-
-size :: [[a]] -> (Int,Int)
-size b = (length b, length (head b))
+takeAdjacent :: Int -> ([a] -> [a])
+takeAdjacent i = drop (i-1) . take (i+2)
