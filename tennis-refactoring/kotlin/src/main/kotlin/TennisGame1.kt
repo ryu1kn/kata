@@ -9,7 +9,7 @@ class TennisGame1(private val player1Name: String, private val player2Name: Stri
         FORTY(3, "Forty"),
         SIXTY(4, "Sixty");
 
-        operator fun compareTo(point: Int): Int = this.value - point
+        operator fun compareTo(point: Int) = this.value - point
 
         companion object {
             fun resolveLabel(point: Int): String = Point.values()[point].label
@@ -17,46 +17,32 @@ class TennisGame1(private val player1Name: String, private val player2Name: Stri
     }
 
     private val DEUCE = "Deuce"
-    private var m_score1: Int = 0
-    private var m_score2: Int = 0
+    private var player1Point: Int = 0
+    private var player2Point: Int = 0
 
     override fun wonPoint(playerName: String) {
         if (playerName === player1Name)
-            m_score1 += 1
+            player1Point += 1
         else
-            m_score2 += 1
+            player2Point += 1
     }
 
-    override fun getScore(): String {
-        return if (isInEarlyStage()) earlyStageScores() else laterStageScores()
+    override fun getScore(): String = if (isInEarlyStage()) earlyStageScores() else laterStageScores()
+
+    private fun isInEarlyStage() = Point.SIXTY > player1Point && Point.SIXTY > player2Point
+
+    private fun earlyStageScores() = if (player1Point == player2Point) sameScore() else nonSameScore()
+
+    private fun sameScore() = if (Point.FORTY > player1Point) "${resolveLabel(player1Point)}-All" else DEUCE
+
+    private fun nonSameScore() = "${resolveLabel(player1Point)}-${resolveLabel(player2Point)}"
+
+    private fun laterStageScores() = when (Math.abs(player1Point - player2Point)) {
+        0 -> DEUCE
+        1 -> "Advantage ${winningPlayer()}"
+        else -> "Win for ${winningPlayer()}"
     }
 
-    private fun isInEarlyStage(): Boolean {
-        return Point.SIXTY > m_score1 && Point.SIXTY > m_score2
-    }
-
-    private fun earlyStageScores(): String {
-        return if (m_score1 == m_score2) sameScore() else nonSameScore()
-    }
-
-    private fun sameScore(): String {
-        return if (Point.FORTY > m_score1) "${resolveLabel(m_score1)}-All" else DEUCE
-    }
-
-    private fun nonSameScore(): String {
-        return "${resolveLabel(m_score1)}-${resolveLabel(m_score2)}"
-    }
-
-    private fun laterStageScores(): String {
-        when (Math.abs(m_score1 - m_score2)) {
-            0 -> return DEUCE
-            1 -> return "Advantage ${winningPlayer()}"
-            else -> return "Win for ${winningPlayer()}"
-        }
-    }
-
-    private fun winningPlayer(): String {
-        return if (m_score1 > m_score2) player1Name else player2Name
-    }
+    private fun winningPlayer() = if (player1Point > player2Point) player1Name else player2Name
 
 }
