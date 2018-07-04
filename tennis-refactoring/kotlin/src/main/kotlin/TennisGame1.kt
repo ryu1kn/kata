@@ -27,13 +27,19 @@ class TennisGame1(private val player1Name: String, private val player2Name: Stri
             player2Point += 1
     }
 
-    override fun getScore(): String = if (isInEarlyStage()) earlyStageScores() else laterStageScores()
+    override fun getScore(): String =
+        if (isInEarlyStage()) earlyStageScores()
+        else laterStageScores()
 
     private fun isInEarlyStage() = Point.SIXTY > player1Point && Point.SIXTY > player2Point
 
-    private fun earlyStageScores() = if (player1Point == player2Point) sameScore() else nonSameScore()
+    private fun earlyStageScores() =
+        if (player1Point == player2Point) sameScore()
+        else nonSameScore()
 
-    private fun sameScore() = if (Point.FORTY > player1Point) "${resolveLabel(player1Point)}-All" else DEUCE
+    private fun sameScore() =
+        if (Point.FORTY > player1Point) "${resolveLabel(player1Point)}-All"
+        else DEUCE
 
     private fun nonSameScore() = "${resolveLabel(player1Point)}-${resolveLabel(player2Point)}"
 
@@ -43,6 +49,8 @@ class TennisGame1(private val player1Name: String, private val player2Name: Stri
         else -> "Win for ${winningPlayer()}"
     }
 
-    private fun winningPlayer() = if (player1Point > player2Point) player1Name else player2Name
+    private fun winningPlayer() =
+        if (player1Point > player2Point) player1Name
+        else player2Name
 
 }
