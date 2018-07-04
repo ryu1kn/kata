@@ -2,14 +2,14 @@ import TennisGame1.Point.Companion.resolveLabel
 
 class TennisGame1(private val player1Name: String, private val player2Name: String) : TennisGame {
 
-    enum class Point(val value: Int, val label: String) {
-        LOVE(0, "Love"),
-        FIFTEEN(1, "Fifteen"),
-        THIRTY(2, "Thirty"),
-        FORTY(3, "Forty"),
-        SIXTY(4, "Sixty");
+    enum class Point(private val label: String) {
+        LOVE("Love"),
+        FIFTEEN("Fifteen"),
+        THIRTY("Thirty"),
+        FORTY("Forty"),
+        SIXTY("Sixty");
 
-        operator fun compareTo(point: Int) = this.value - point
+        operator fun compareTo(point: Int) = this.ordinal - point
 
         companion object {
             fun resolveLabel(point: Int): String = Point.values()[point].label
