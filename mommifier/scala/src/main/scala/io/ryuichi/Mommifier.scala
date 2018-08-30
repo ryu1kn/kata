@@ -2,26 +2,34 @@ package io.ryuichi
 
 object Mommifier {
 
-  def mommify(input: String): String =
-    if (needsMommify(input)) doMommify(input)
-    else input
+  val mommify: String => String =
+    TestSubject(_: String).fold(needsMommify, doMommify)
 
-  private def needsMommify(text: String) =
-    !text.isEmpty && getVowelRatio(text) > 0.3
+  private lazy val needsMommify =
+    (text: String) => !text.isEmpty && getVowelRatio(text) > 0.3
 
-  private def isVowel(c: Char) = "aeiou".contains(c)
+  private lazy val isVowel = "aeiou".contains(_: Char)
 
-  private def getVowelRatio(text: String) = text.count(isVowel).toDouble / text.length
+  private lazy val getVowelRatio =
+    (text: String) => text.count(isVowel).toDouble / text.length
 
-  private def doMommify(text: String) = replaceVowels(squashVowels(text))
+  private lazy val doMommify = replaceVowels compose squashVowels
 
-  private def squashVowels(text: String): String = text
-    .foldRight(List.empty[Char]) {
+  private lazy val squashVowels =
+    (_: String).foldRight(List.empty[Char]) {
       case (c1, c2 :: rest) if isVowel(c1) && isVowel(c2) => c2 :: rest
       case (c, list) => c :: list
     }
     .mkString
 
-  private def replaceVowels(text: String): String = text.flatMap(c => if (isVowel(c)) "mommy" else c.toString)
+  private lazy val replaceVowels =
+    (_: String).flatMap(c => if (isVowel(c)) "mommy" else c.toString)
 
+}
+
+// Are there any functions that already do this?
+case class TestSubject[T](subject: T) {
+  def fold(predicate: T => Boolean, convert: T => T): T =
+    if (predicate(subject)) convert(subject)
+    else subject
 }
