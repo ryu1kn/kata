@@ -79,5 +79,9 @@ class FamilySpec extends WordSpec with Matchers {
     "find mothers who have the most daughters" in {
       familyQuery.hasMostDaughter shouldBe List(Jaya, Lika, Jnki, Satya)
     }
+
+    "describe the relationship between 2 people" in {
+      familyQuery.tellRelation(Anga, Shan) shouldBe Husband
+    }
   }
 }
