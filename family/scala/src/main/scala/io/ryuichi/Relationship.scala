@@ -36,6 +36,14 @@ object Children extends DeducibleRelation {
     f.ask { case Relationship(Parent, `source`, children) => children }
 }
 
+object GrandChildren extends DeducibleRelation {
+  override def of(source: Person)(implicit f: Family): List[Person] =
+    for {
+      child <- Children.of(source)
+      grandchild <- Children.of(child)
+    } yield grandchild
+}
+
 object Son extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     Children.of(source).filter(_.sex == M)
@@ -66,10 +74,7 @@ object Sister extends DeducibleRelation {
 
 object GrandDaughter extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
-    for {
-      children <- Children.of(source)
-      daughter <- Daughter.of(children)
-    } yield daughter
+    GrandChildren.of(source).filter(_.sex == F)
 }
 
 object Sibling extends DeducibleRelation {

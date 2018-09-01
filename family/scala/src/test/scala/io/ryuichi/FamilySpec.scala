@@ -68,5 +68,12 @@ class FamilySpec extends WordSpec with Matchers {
     "find paternal uncles" in {
       familyQuery.ask(PaternalUncle, Kriya) shouldBe List(Saayan, Asva)
     }
+
+    "grow" in {
+      val Vanya = Person("Vanya", F)
+      val familyQuery = new FamilyQuery(family.add(Relationship(Parent, Lavnya, Vanya)))
+
+      familyQuery.ask(GrandChildren, Jnki) shouldBe List(Vanya)
+    }
   }
 }
