@@ -2,6 +2,14 @@ package io.ryuichi
 
 case class Relationship(relationType: BaseRelation, person1: Person, person2: Person)
 
+object Relationship {
+  implicit class RelationListWrap(relations: List[Relationship]) {
+    def collectPeople: List[Person] = relations
+      .flatMap(rel => List(rel.person1, rel.person2))
+      .distinct
+  }
+}
+
 sealed trait BaseRelation
 
 sealed trait DeducibleRelation {

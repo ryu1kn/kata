@@ -75,5 +75,9 @@ class FamilySpec extends WordSpec with Matchers {
 
       familyQuery.ask(GrandChildren, Jnki) shouldBe List(Vanya)
     }
+
+    "find mothers who have the most daughters" in {
+      familyQuery.hasMostDaughter shouldBe List(Jaya, Lika, Jnki, Satya)
+    }
   }
 }
