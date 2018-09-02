@@ -33,5 +33,6 @@ class FamilyQuery(family: Family) {
   def ask(relationship: DeducibleRelation, person: Person): List[Person] =
     relationship.of(person)
 
-  def tellRelation(person: Person, relative: Person): DeducibleRelation = ???
+  def tellRelation(person: Person, relative: Person): Option[DeducibleRelation] =
+    DeducibleRelation.types.find(_.of(person).contains(relative))
 }

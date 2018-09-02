@@ -81,7 +81,8 @@ class FamilySpec extends WordSpec with Matchers {
     }
 
     "describe the relationship between 2 people" in {
-      familyQuery.tellRelation(Anga, Shan) shouldBe Husband
+      familyQuery.tellRelation(Anga, Shan) shouldBe Some(Husband)
+      familyQuery.tellRelation(Kriya, Saayan) shouldBe Some(PaternalUncle)
     }
   }
 }

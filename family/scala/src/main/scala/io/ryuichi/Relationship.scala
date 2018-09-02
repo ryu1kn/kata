@@ -16,6 +16,15 @@ sealed trait DeducibleRelation {
   def of(source: Person)(implicit f: Family): List[Person]
 }
 
+object DeducibleRelation {
+  val types: List[DeducibleRelation] = List(
+    Husband, Wife,
+    Father, Mother, Son, Daughter, GrandChildren, GrandDaughter,
+    Brother, Sister, BrotherInLaw, SisterInLaw,
+    MaternalAunt, PaternalAunt, MaternalUncle, PaternalUncle
+  )
+}
+
 object Parent extends BaseRelation with DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     f.ask { case Relationship(Parent, parent, `source`) => parent }
