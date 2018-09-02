@@ -169,8 +169,9 @@ object MaternalAunt extends DeducibleRelation {
   def sistersInLawOfMother(source: Person)(implicit f: Family): List[Person] =
     for {
       mother <- Mother.of(source)
-      sisterInLaw <- SisterInLaw.of(mother)
-    } yield sisterInLaw
+      brother <- Brother.of(mother)
+      wife <- Wife.of(brother)
+    } yield wife
 }
 
 object PaternalAunt extends DeducibleRelation {
@@ -186,8 +187,9 @@ object PaternalAunt extends DeducibleRelation {
   def sistersInLawOfFather(source: Person)(implicit f: Family): List[Person] =
     for {
       father <- Father.of(source)
-      sisterInLaw <- SisterInLaw.of(father)
-    } yield sisterInLaw
+      brother <- Brother.of(father)
+      wife <- Wife.of(brother)
+    } yield wife
 }
 
 object MaternalUncle extends DeducibleRelation {
@@ -203,8 +205,9 @@ object MaternalUncle extends DeducibleRelation {
   def brothersInLawOfMother(source: Person)(implicit f: Family): List[Person] =
     for {
       mother <- Mother.of(source)
-      brotherInLaw <- BrotherInLaw.of(mother)
-    } yield brotherInLaw
+      sister <- Sister.of(mother)
+      husband <- Husband.of(sister)
+    } yield husband
 }
 
 object PaternalUncle extends DeducibleRelation {
@@ -220,6 +223,7 @@ object PaternalUncle extends DeducibleRelation {
   def brothersInLawOfFather(source: Person)(implicit f: Family): List[Person] =
     for {
       father <- Father.of(source)
-      brotherInLaw <- BrotherInLaw.of(father)
-    } yield brotherInLaw
+      sister <- Sister.of(father)
+      husband <- Husband.of(sister)
+    } yield husband
 }
