@@ -19,7 +19,7 @@ sealed trait DeducibleRelation {
 object DeducibleRelation {
   val types: List[DeducibleRelation] = List(
     Husband, Wife,
-    Father, Mother, Son, Daughter, GrandChildren, GrandDaughter,
+    Father, Mother, Son, Daughter, GrandSon, GrandDaughter,
     Brother, Sister, BrotherInLaw, SisterInLaw,
     MaternalAunt, PaternalAunt, MaternalUncle, PaternalUncle
   )
@@ -94,6 +94,11 @@ case object GrandDaughter extends DeducibleRelation {
     GrandChildren.of(source).filter(_.sex == F)
 }
 
+case object GrandSon extends DeducibleRelation {
+  override def of(source: Person)(implicit f: Family): List[Person] =
+    GrandChildren.of(source).filter(_.sex == F)
+}
+
 case object Sibling extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     for {
@@ -107,8 +112,8 @@ case object Cousin extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     for {
       parent <- Father.of(source)
-      uncleNaunt <- Sibling.of(parent)
-      cousin <- Children.of(uncleNaunt)
+      uncleAndAunt <- Sibling.of(parent)
+      cousin <- Children.of(uncleAndAunt)
     } yield cousin
 }
 
