@@ -25,12 +25,12 @@ object DeducibleRelation {
   )
 }
 
-object Parent extends BaseRelation with DeducibleRelation {
+case object Parent extends BaseRelation with DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     f.ask { case Relationship(Parent, parent, `source`) => parent }
 }
 
-object Spouse extends BaseRelation with DeducibleRelation {
+case object Spouse extends BaseRelation with DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     f.ask {
       case Relationship(Spouse, partner, `source`) => partner
@@ -38,22 +38,22 @@ object Spouse extends BaseRelation with DeducibleRelation {
     }
 }
 
-object Father extends DeducibleRelation {
+case object Father extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     Parent.of(source).filter(_.sex == M)
 }
 
-object Mother extends DeducibleRelation {
+case object Mother extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     Parent.of(source).filter(_.sex == F)
 }
 
-object Children extends DeducibleRelation {
+case object Children extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     f.ask { case Relationship(Parent, `source`, children) => children }
 }
 
-object GrandChildren extends DeducibleRelation {
+case object GrandChildren extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     for {
       child <- Children.of(source)
@@ -61,17 +61,17 @@ object GrandChildren extends DeducibleRelation {
     } yield grandchild
 }
 
-object Son extends DeducibleRelation {
+case object Son extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     Children.of(source).filter(_.sex == M)
 }
 
-object Daughter extends DeducibleRelation {
+case object Daughter extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     Children.of(source).filter(_.sex == F)
 }
 
-object Brother extends DeducibleRelation {
+case object Brother extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     for {
       father <- Father.of(source)
@@ -80,7 +80,7 @@ object Brother extends DeducibleRelation {
     } yield son
 }
 
-object Sister extends DeducibleRelation {
+case object Sister extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     for {
       father <- Father.of(source)
@@ -89,12 +89,12 @@ object Sister extends DeducibleRelation {
     } yield daughter
 }
 
-object GrandDaughter extends DeducibleRelation {
+case object GrandDaughter extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     GrandChildren.of(source).filter(_.sex == F)
 }
 
-object Sibling extends DeducibleRelation {
+case object Sibling extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     for {
       parent <- Father.of(source)
@@ -103,7 +103,7 @@ object Sibling extends DeducibleRelation {
     } yield child
 }
 
-object Cousin extends DeducibleRelation {
+case object Cousin extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     for {
       parent <- Father.of(source)
@@ -112,17 +112,17 @@ object Cousin extends DeducibleRelation {
     } yield cousin
 }
 
-object Husband extends DeducibleRelation {
+case object Husband extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     Spouse.of(source).filter(_.sex == M)
 }
 
-object Wife extends DeducibleRelation {
+case object Wife extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     Spouse.of(source).filter(_.sex == F)
 }
 
-object BrotherInLaw extends DeducibleRelation {
+case object BrotherInLaw extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     brothersOfHusband(source) ++ husbandOfSiblings(source)
 
@@ -139,7 +139,7 @@ object BrotherInLaw extends DeducibleRelation {
     } yield brotherInLaw
 }
 
-object SisterInLaw extends DeducibleRelation {
+case object SisterInLaw extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     sistersOfWife(source) ++ wifeOfSiblings(source)
 
@@ -156,7 +156,7 @@ object SisterInLaw extends DeducibleRelation {
     } yield sisterInLaw
 }
 
-object MaternalAunt extends DeducibleRelation {
+case object MaternalAunt extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     sistersOfMother(source) ++ sistersInLawOfMother(source)
 
@@ -174,7 +174,7 @@ object MaternalAunt extends DeducibleRelation {
     } yield wife
 }
 
-object PaternalAunt extends DeducibleRelation {
+case object PaternalAunt extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     sistersOfFather(source) ++ sistersInLawOfFather(source)
 
@@ -192,7 +192,7 @@ object PaternalAunt extends DeducibleRelation {
     } yield wife
 }
 
-object MaternalUncle extends DeducibleRelation {
+case object MaternalUncle extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     brothersOfMother(source) ++ brothersInLawOfMother(source)
 
@@ -210,7 +210,7 @@ object MaternalUncle extends DeducibleRelation {
     } yield husband
 }
 
-object PaternalUncle extends DeducibleRelation {
+case object PaternalUncle extends DeducibleRelation {
   override def of(source: Person)(implicit f: Family): List[Person] =
     brothersOfFather(source) ++ brothersInLawOfFather(source)
 
