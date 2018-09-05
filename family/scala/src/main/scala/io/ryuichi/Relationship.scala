@@ -14,15 +14,21 @@ sealed trait BaseRelation
 
 sealed trait DeducibleRelation {
   def of(source: Person)(implicit f: Family): List[Person]
+
+  def isOf(source: Person, relative: Person)(implicit f: Family): Boolean =
+    this.of(source).contains(relative)
 }
 
 object DeducibleRelation {
-  val types: List[DeducibleRelation] = List(
+  val identifiableRelations: List[DeducibleRelation] = List(
     Husband, Wife,
     Father, Mother, Son, Daughter, GrandSon, GrandDaughter,
     Brother, Sister, BrotherInLaw, SisterInLaw,
     MaternalAunt, PaternalAunt, MaternalUncle, PaternalUncle
   )
+
+  def tellRelation(source: Person, relative: Person)(implicit f: Family): Option[DeducibleRelation] =
+    identifiableRelations.find(_.isOf(source, relative))
 }
 
 case object Parent extends BaseRelation with DeducibleRelation {

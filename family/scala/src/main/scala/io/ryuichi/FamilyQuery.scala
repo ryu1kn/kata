@@ -30,9 +30,7 @@ class FamilyQuery(family: Family) {
     eligibleLadies.maxsBy(Daughter.of(_).size)
   }
 
-  def ask(relationship: DeducibleRelation, person: Person): List[Person] =
-    relationship.of(person)
+  val ask: (DeducibleRelation, Person) => List[Person] = _ of _
 
-  def tellRelation(person: Person, relative: Person): Option[DeducibleRelation] =
-    DeducibleRelation.types.find(_.of(person).contains(relative))
+  val tellRelation: (Person, Person) => Option[DeducibleRelation] = DeducibleRelation.tellRelation
 }
