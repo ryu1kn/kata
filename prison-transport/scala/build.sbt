@@ -1,13 +1,11 @@
-import Dependencies._
-
 lazy val root = (project in file(".")).
   settings(
     inThisBuild(List(
-      organization := "com.example",
-      scalaVersion := "2.12.4"
+      organization := "io.ryuichi",
+      scalaVersion := "2.12.8"
     )),
-    name := "kata--prison-transport",
+    name := "prison-transport--scala",
     libraryDependencies ++= Seq(
-      scalaTest % Test
+      "org.scalatest" %% "scalatest" % "3.0.4" % Test
     )
   )
