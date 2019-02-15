@@ -1,11 +1,12 @@
 package io.ryuichi
 
+import io.ryuichi.App._
 import org.scalatest._
 
-class AppSpec extends FlatSpec with Matchers {
+class AppSpec extends WordSpec with Matchers {
 
-  it should "pass" in {
-    1 shouldEqual 1
+  "transport 1 person" in {
+    transport(1, List()) shouldEqual 1
   }
 
 }
