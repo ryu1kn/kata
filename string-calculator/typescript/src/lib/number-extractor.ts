@@ -1,4 +1,6 @@
-const DELIMITER = /[,\n]/;
+const DEFAULT_DELIMITER = /[,\n]/;
+
+type Delimiter = string | RegExp;
 
 export class NumberExtractor {
     private readonly input: string;
@@ -8,13 +10,26 @@ export class NumberExtractor {
     }
 
     extract(): number[] {
-        const number = this.input;
-        if (!number) return [0];
-        const match = number.match(/\/\/(.)\n(.*)$/);
-        return match ? this.extractNumbers(match[2], match[1]) : this.extractNumbers(number);
+        return this.isEmpty ? [] : this.extractNumbers(this.numberPart, this.delimiter);
     }
 
-    private extractNumbers(number: string, delimiter: string | RegExp = DELIMITER): number[] {
+    private get isEmpty(): boolean {
+        return !this.input;
+    }
+
+    private get delimiterSpecified(): boolean {
+        return this.input.startsWith('//');
+    }
+
+    private get delimiter(): Delimiter {
+        return this.delimiterSpecified ? this.input.match(/\/\/(.)\n/)[1] : DEFAULT_DELIMITER;
+    }
+
+    private get numberPart(): string {
+        return this.delimiterSpecified ? this.input.substring(this.input.indexOf('\n')) : this.input;
+    }
+
+    private extractNumbers(number: string, delimiter: Delimiter): number[] {
         return number.split(delimiter).map(n => parseInt(n));
     }
 }
