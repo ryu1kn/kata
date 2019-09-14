@@ -1,0 +1,6 @@
+
+# FizzBuzz
+
+```sh
+$ sbt test
+```

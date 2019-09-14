@@ -17,3 +17,4 @@
 * [Tennis Refactoring](./tennis-refactoring/README.md)
 * [Mommifier](./mommifier/README.md)
 * [Family](./family/README.md)
+* [FizzBuzz](./fizzbuzz/README.md)
