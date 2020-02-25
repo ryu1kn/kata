@@ -1,6 +1,7 @@
 /.idea
 __*
 *.iml
+.*.sw?
 
 # Why IntelliJ add this at the top instead of inside scala dir?
 /target
