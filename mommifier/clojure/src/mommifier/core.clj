@@ -4,7 +4,7 @@
 
 (def vowels (char-array "aeiou"))
 
-(defn vowel? [c] (some #(= % c) vowels))
+(defn vowel? [c] (some #{c} vowels))
 
 (defn vowel-again? [s c] (and (vowel? (last s)) (vowel? c)))
 
@@ -13,15 +13,15 @@
 
 (defn mommy [c] (if (vowel? c) "mommy" (str c)))
 
-(defn collapse-vowels [cs]
-  (reduce (partial append-unless vowel-again?) [] cs))
+(def collapse-vowels
+  (partial reduce (partial append-unless vowel-again?) []))
 
-(defn count' [pred coll] (count (filter pred coll)))
+(def count-by (comp count filter))
+
+(def vowel-ratio (comp (partial reduce /) (juxt (partial count-by vowel?) count)))
 
 (defn should-mommify? [s]
-  (and
-    (not (empty? s))
-    (> (/ (count' vowel? s) (count s)) 0.3)))
+  (and (not-empty s) (> (vowel-ratio s) 0.3)))
 
 (def mommify' (comp (partial s/join "") (partial map mommy) collapse-vowels char-array))
 
