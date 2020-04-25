@@ -36,3 +36,6 @@ main = launchAff_ $ runSpec [consoleReporter] do
 
     it "returns as is if vowels are less than 30% of the string" do
       mommify "bbba" `shouldEqual` "bbba"
+
+    it "mommify consecutive vowels only once" do
+      mommify "aa" `shouldEqual` "mommy"
