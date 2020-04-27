@@ -7,14 +7,13 @@ import Data.Maybe (Maybe(..))
 import Data.String.CodeUnits (toCharArray)
 
 findColour :: String -> Maybe Char
-findColour = deduces <<< Just <<< toCharList
+findColour = deduces <<< toCharList
   where
     toCharList = fromFoldable <<< toCharArray
 
-deduces :: Maybe (List Char) -> Maybe Char
-deduces (Just (x : Nil)) = Just x
-deduces (Just list) = deduces $ deduce list
-deduces Nothing = Nothing
+deduces :: List Char -> Maybe Char
+deduces (x : Nil) = Just x
+deduces list = deduce list >>= deduces
 
 deduce :: List Char -> Maybe (List Char)
 deduce (x : Nil) = Just (x : Nil)
