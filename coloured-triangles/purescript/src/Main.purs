@@ -3,20 +3,19 @@ module Main where
 import Prelude
 
 import Data.List (List(..), (:), difference)
-import Data.List.NonEmpty (NonEmptyList(..), fromFoldable, toUnfoldable)
+import Data.List.NonEmpty (NonEmptyList(..), fromFoldable)
 import Data.Maybe (Maybe)
 import Data.NonEmpty ((:|))
-import Data.String.CodeUnits (fromCharArray, toCharArray)
+import Data.String.CodeUnits (toCharArray)
 
-findColour :: String -> Maybe String
-findColour = (map <<< map) (fromCharList <<< findColour') toCharList
+findColour :: String -> Maybe Char
+findColour = (map <<< map) findColour' toCharList
   where
     toCharList = fromFoldable <<< toCharArray
-    fromCharList = fromCharArray <<< toUnfoldable
 
-findColour' :: NonEmptyList Char -> NonEmptyList Char
-findColour' (NonEmptyList (x :| (y : _))) = NonEmptyList (nextColour x y :| Nil)
-findColour' (NonEmptyList (x :| _)) = NonEmptyList (x :| Nil)
+findColour' :: NonEmptyList Char -> Char
+findColour' (NonEmptyList (x :| (y : _))) = nextColour x y
+findColour' (NonEmptyList (x :| _)) = x
 
 nextColour :: Char -> Char -> Char
 nextColour x y | x == y = x

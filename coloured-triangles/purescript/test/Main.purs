@@ -18,13 +18,13 @@ main = launchAff_ $ runSpec [consoleReporter] do
       findColour "" `shouldEqual` Nothing
 
     it "single red" do
-      findColour "R" `shouldEqual` Just "R"
+      findColour "R" `shouldEqual` Just 'R'
 
     it "two reds" do
-      findColour "RR" `shouldEqual` Just "R"
+      findColour "RR" `shouldEqual` Just 'R'
 
     it "suppliment missing colour code" do
-      findColour "RB" `shouldEqual` Just "G"
+      findColour "RB" `shouldEqual` Just 'G'
 
     it "two reduction steps" do
-      findColour "RRG" `shouldEqual` Just "G"
+      findColour "RRG" `shouldEqual` Just 'G'
