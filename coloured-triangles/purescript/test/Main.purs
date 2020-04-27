@@ -28,3 +28,6 @@ main = launchAff_ $ runSpec [consoleReporter] do
 
     it "two reduction steps" do
       findColour "RRG" `shouldEqual` Just 'G'
+
+    it "more complex test case" do
+      findColour "RRGBRGBB" `shouldEqual` Just 'G'
