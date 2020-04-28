@@ -25,3 +25,6 @@ main = launchAff_ $ runSpec [consoleReporter] do
 
     it "multiple numbers" do
       stringAdd "1,2,3" `shouldEqual` Just 6
+
+    it "treat newline as a delimiter as well" do
+      stringAdd "1\n2" `shouldEqual` Just 3

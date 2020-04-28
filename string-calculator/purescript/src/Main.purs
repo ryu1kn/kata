@@ -3,7 +3,7 @@ module Main where
 import Prelude
 
 import Data.Int (fromString)
-import Data.List (List, foldl, fromFoldable)
+import Data.List (List(..), (:), foldM, foldl, fromFoldable)
 import Data.Maybe (Maybe(..))
 import Data.String (split, Pattern(..))
 import Data.String.CodeUnits (length)
@@ -18,4 +18,10 @@ addNumbers :: List Int -> Int
 addNumbers list = foldl (+) 0 list
 
 splitToNumbers :: String -> Maybe (List Int)
-splitToNumbers = traverse fromString <<< fromFoldable <<< split (Pattern ",")
+splitToNumbers = traverse fromString <<< splitWithDelims ("," : "\n" : Nil)
+
+splitWithDelims :: List String -> String -> List String
+splitWithDelims delims input = foldM (flip splitWithDelim) input delims
+
+splitWithDelim :: String -> String -> List String
+splitWithDelim delim = fromFoldable <<< split (Pattern delim)
