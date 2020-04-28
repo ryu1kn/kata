@@ -27,7 +27,12 @@ stringAdd s = if length s == 0
   else foldl (+) 0 <$> (splitToNumbers $ readInstruction s)
 
 splitToNumbers :: Instruction -> Maybe (List Int)
-splitToNumbers (Instruction {delims: d, expr: e}) = traverse fromString $ splitWithDelims d e
+splitToNumbers (Instruction {delims: d, expr: e}) = traverse nonNegative $ splitWithDelims d e
+  where
+    nonNegative x = fromString x >>= assertNonNegative
+
+assertNonNegative :: Int -> Maybe Int
+assertNonNegative n = if (n >= 0) then Just n else Nothing
 
 splitWithDelims :: List String -> String -> List String
 splitWithDelims delims input = foldM (flip splitWithDelim) input delims

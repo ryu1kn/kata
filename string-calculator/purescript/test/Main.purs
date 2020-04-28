@@ -31,3 +31,6 @@ main = launchAff_ $ runSpec [consoleReporter] do
 
     it "specify delimiter of choice" do
       stringAdd "//;\n1;2" `shouldEqual` Just 3
+
+    it "negative numbers are not supported" do
+      stringAdd "-1" `shouldEqual` Nothing
