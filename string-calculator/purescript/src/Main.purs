@@ -12,10 +12,7 @@ import Data.Traversable (traverse)
 stringAdd :: String -> Maybe Int
 stringAdd s = if length s == 0
   then Just 0
-  else map addNumbers $ splitToNumbers s
-
-addNumbers :: List Int -> Int
-addNumbers list = foldl (+) 0 list
+  else foldl (+) 0 <$> splitToNumbers s
 
 splitToNumbers :: String -> Maybe (List Int)
 splitToNumbers = traverse fromString <<< splitWithDelims ("," : "\n" : Nil)
