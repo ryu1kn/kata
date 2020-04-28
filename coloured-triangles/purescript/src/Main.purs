@@ -23,10 +23,7 @@ toColour c | c == 'R' = Just R
            | otherwise = Nothing
 
 findColour :: String -> Maybe String
-findColour s = do
-    colours <- toColourList s
-    colour <- deduces colours
-    pure $ show colour
+findColour s = map show (toColourList s >>= deduces)
   where
     toColourList :: String -> Maybe (List Colour)
     toColourList = sequence <<< map toColour <<< fromFoldable <<< toCharArray
