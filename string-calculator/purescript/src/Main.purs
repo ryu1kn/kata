@@ -4,18 +4,30 @@ import Prelude
 
 import Data.Int (fromString)
 import Data.List (List(..), (:), foldM, foldl, fromFoldable)
-import Data.Maybe (Maybe(..))
-import Data.String (split, Pattern(..))
-import Data.String.CodeUnits (length)
+import Data.Maybe (Maybe(..), isJust)
+import Data.String (Pattern(..), drop, split, stripPrefix)
+import Data.String.CodeUnits (dropWhile, length, takeWhile)
 import Data.Traversable (traverse)
+
+newtype Instruction = Instruction { delims :: List String,
+                                    expr :: String }
+
+readInstruction :: String -> Instruction
+readInstruction s = if withDelimSpec s
+  then Instruction { delims: (getDelim s : Nil), expr: getExpr s }
+  else Instruction { delims: ("," : "\n" : Nil), expr: s }
+  where
+    withDelimSpec = isJust <<< stripPrefix (Pattern "//")
+    getDelim = takeWhile (_ /= '\n') <<< drop 2
+    getExpr = drop 1 <<< dropWhile (_ /= '\n')
 
 stringAdd :: String -> Maybe Int
 stringAdd s = if length s == 0
   then Just 0
-  else foldl (+) 0 <$> splitToNumbers s
+  else foldl (+) 0 <$> (splitToNumbers $ readInstruction s)
 
-splitToNumbers :: String -> Maybe (List Int)
-splitToNumbers = traverse fromString <<< splitWithDelims ("," : "\n" : Nil)
+splitToNumbers :: Instruction -> Maybe (List Int)
+splitToNumbers (Instruction {delims: d, expr: e}) = traverse fromString $ splitWithDelims d e
 
 splitWithDelims :: List String -> String -> List String
 splitWithDelims delims input = foldM (flip splitWithDelim) input delims

@@ -28,3 +28,6 @@ main = launchAff_ $ runSpec [consoleReporter] do
 
     it "treat newline as a delimiter as well" do
       stringAdd "1\n2" `shouldEqual` Just 3
+
+    it "specify delimiter of choice" do
+      stringAdd "//;\n1;2" `shouldEqual` Just 3
