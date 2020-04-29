@@ -2,9 +2,10 @@ module Main where
 
 import Prelude
 
+import Data.Either (Either(..), note)
 import Data.Int (fromString)
 import Data.List (List(..), (:), foldM, foldl, fromFoldable)
-import Data.Maybe (Maybe(..), isJust)
+import Data.Maybe (isJust)
 import Data.String (Pattern(..), drop, split, stripPrefix)
 import Data.String.CodeUnits (dropWhile, length, takeWhile)
 import Data.Traversable (traverse)
@@ -21,18 +22,18 @@ readInstruction s = if withDelimSpec s
     getDelim = takeWhile (_ /= '\n') <<< drop 2
     getExpr = drop 1 <<< dropWhile (_ /= '\n')
 
-stringAdd :: String -> Maybe Int
+stringAdd :: String -> Either String Int
 stringAdd s = if length s == 0
-  then Just 0
+  then Right 0
   else foldl (+) 0 <$> (splitToNumbers $ readInstruction s)
 
-splitToNumbers :: Instruction -> Maybe (List Int)
+splitToNumbers :: Instruction -> Either String (List Int)
 splitToNumbers (Instruction {delims: d, expr: e}) = traverse nonNegative $ splitWithDelims d e
   where
-    nonNegative x = fromString x >>= assertNonNegative
+    nonNegative x = note "not a number" (fromString x) >>= assertNonNegative
 
-assertNonNegative :: Int -> Maybe Int
-assertNonNegative n = if (n >= 0) then Just n else Nothing
+assertNonNegative :: Int -> Either String Int
+assertNonNegative n = if (n >= 0) then Right n else Left "negatives not allowed"
 
 splitWithDelims :: List String -> String -> List String
 splitWithDelims delims input = foldM (flip splitWithDelim) input delims
