@@ -37,4 +37,4 @@ main = launchAff_ $ runSpec [consoleReporter] do
       stringAdd "-1" `shouldEqual` Left "negatives not allowed: -1"
 
     it "negative numbers are not supported - multiple" do
-      stringAdd "-1, 2, -3" `shouldEqual` Left "negatives not allowed: -1, -3"
+      stringAdd "-1,2,-3" `shouldEqual` Left "negatives not allowed: -1, -3"
