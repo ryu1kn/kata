@@ -38,3 +38,6 @@ main = launchAff_ $ runSpec [consoleReporter] do
 
     it "negative numbers are not supported - multiple" do
       stringAdd "-1,2,-3" `shouldEqual` Left "negatives not allowed: -1, -3"
+
+    it "numbers bigger than 1000 should be ignored" do
+      stringAdd "1,1001" `shouldEqual` Right 1
