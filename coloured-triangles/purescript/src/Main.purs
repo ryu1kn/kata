@@ -26,14 +26,13 @@ findColour :: String -> Maybe String
 findColour = map show <$> (deduces <=< toColourList)
   where
     toColourList :: String -> Maybe (List Colour)
-    toColourList = sequence <<< map toColour <<< fromFoldable <<< toCharArray
+    toColourList = toCharArray >>> fromFoldable >>> map toColour >>> sequence
 
 deduces :: List Colour -> Maybe Colour
 deduces (x : Nil) = Just x
 deduces list = deduce list >>= deduces
 
 deduce :: List Colour -> Maybe (List Colour)
-deduce (x : Nil) = Just (x : Nil)
 deduce list = map (zipWith nextColour list) (tail list)
 
 nextColour :: Colour -> Colour -> Colour
