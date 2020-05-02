@@ -23,7 +23,7 @@ toColour c | c == 'R' = Just R
            | otherwise = Nothing
 
 findColour :: String -> Maybe String
-findColour = map show <$> (deduces <=< toColourList)
+findColour = map show <<< (deduces <=< toColourList)
   where
     toColourList :: String -> Maybe (List Colour)
     toColourList = toCharArray >>> fromFoldable >>> map toColour >>> sequence
