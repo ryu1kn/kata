@@ -11,8 +11,8 @@ _V = {n: 5, c: "V"}
 _X = {n: 10, c: "X"}
 
 romanNumeral :: Int -> String
-romanNumeral x | x < 4 = toString <<< flip take (repeat 'I') $ x
-               | x < 9 = symbolsAround _V x
+romanNumeral x | x < _V.n - 1 = toString <<< flip take (repeat 'I') $ x
+               | x < _X.n - 1 = symbolsAround _V x
                | otherwise = symbolsAround _X x
 
 symbolsAround :: RN -> Int -> String
