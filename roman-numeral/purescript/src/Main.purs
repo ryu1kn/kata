@@ -7,7 +7,11 @@ import Data.String.CodeUnits (fromCharArray)
 
 romanNumeral :: Int -> String
 romanNumeral x | x < 4 = toString <<< flip take (repeat 'I') $ x
-               | otherwise = "IV"
+               | x == 4 = "IV"
+               | x == 5 = "V"
+               | x == 6 = "VI"
+               | x == 7 = "VII"
+               | otherwise = "VIII"
 
 toString :: List Char -> String
 toString = toUnfoldable >>> fromCharArray

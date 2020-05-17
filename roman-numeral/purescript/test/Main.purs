@@ -24,3 +24,15 @@ main = launchAff_ $ runSpec [consoleReporter] do
 
     it "4" do
       romanNumeral 4 `shouldEqual` "IV"
+
+    it "5" do
+      romanNumeral 5 `shouldEqual` "V"
+
+    it "6" do
+      romanNumeral 6 `shouldEqual` "VI"
+
+    it "7" do
+      romanNumeral 7 `shouldEqual` "VII"
+
+    it "8" do
+      romanNumeral 8 `shouldEqual` "VIII"
