@@ -48,3 +48,6 @@ main = launchAff_ $ runSpec [consoleReporter] do
 
     it "50" do
       romanNumeral 50 `shouldEqual` "L"
+
+    it "40" do
+      romanNumeral 40 `shouldEqual` "XL"

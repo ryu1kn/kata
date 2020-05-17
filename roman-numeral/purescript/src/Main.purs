@@ -5,22 +5,35 @@ import Prelude
 import Data.List.Lazy (List, repeat, take, toUnfoldable)
 import Data.String.CodeUnits (fromCharArray)
 
-type RN = { n :: Int, c :: String }
+data RN = RN { val :: Int, face :: String, dec :: RN } | Zero
 
-_V = {n: 5, c: "V"}
-_X = {n: 10, c: "X"}
-_L = {n: 50, c: "L"}
+_I = RN {val: 1, face: "I", dec: Zero}
+_V = RN {val: 5, face: "V", dec: _I}
+_X = RN {val: 10, face: "X", dec: _I}
+_L = RN {val: 50, face: "L", dec: _X}
+
+val :: RN -> Int
+val (RN r) = r.val
+val Zero = 0
+
+face :: RN -> String
+face (RN r) = r.face
+face Zero = ""
+
+dec :: RN -> RN
+dec (RN r) = r.dec
+dec Zero = Zero
 
 romanNumeral :: Int -> String
-romanNumeral x | x < _V.n - 1 = toString <<< flip take (repeat 'I') $ x
-               | x < _X.n - 1 = symbolsAround _V x
-               | x < _L.n = symbolsAround _X x
-               | otherwise = _L.c
+romanNumeral x | x < val _V - 1 = toString <<< flip take (repeat 'I') $ x
+               | x < val _X - 1 = symbolsAround _V x
+               | x < val _L - 10 = symbolsAround _X x
+               | otherwise = symbolsAround _L x
 
 symbolsAround :: RN -> Int -> String
-symbolsAround rn x = subtractSymbol rn.n x <> rn.c <> romanNumeral (x - rn.n)
+symbolsAround rn x = subtractSymbol rn x <> face rn <> romanNumeral (x - val rn)
   where
-    subtractSymbol base n = if n < base then "I" else ""
+    subtractSymbol base n = if n < val base then (face <<< dec) base else ""
 
 toString :: List Char -> String
 toString = toUnfoldable >>> fromCharArray
