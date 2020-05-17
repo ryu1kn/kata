@@ -41,9 +41,9 @@ lowerBound :: RN -> Int
 lowerBound = (-) <$> val <*> (val <<< dec)
 
 symbolsAround :: RN -> Int -> String
-symbolsAround rn x = subtractSymbol rn x <> face rn <> romanNumeral (x - val rn)
-  where
-    subtractSymbol base n = if n < val base then (face <<< dec) base else ""
+symbolsAround rn x = if x < val rn
+    then (face <<< dec) rn <> face rn <> romanNumeral (x - lowerBound rn)
+    else face rn <> romanNumeral (x - val rn)
 
 toString :: List Char -> String
 toString = toUnfoldable >>> fromCharArray
