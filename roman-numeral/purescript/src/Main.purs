@@ -25,10 +25,13 @@ dec (RN r) = r.dec
 dec Zero = Zero
 
 romanNumeral :: Int -> String
-romanNumeral x | x < val _V - 1 = toString <<< flip take (repeat 'I') $ x
-               | x < val _X - 1 = symbolsAround _V x
-               | x < val _L - 10 = symbolsAround _X x
+romanNumeral x | x < lowerBound _V = toString <<< flip take (repeat 'I') $ x
+               | x < lowerBound _X = symbolsAround _V x
+               | x < lowerBound _L = symbolsAround _X x
                | otherwise = symbolsAround _L x
+
+lowerBound :: RN -> Int
+lowerBound = (-) <$> val <*> (val <<< dec)
 
 symbolsAround :: RN -> Int -> String
 symbolsAround rn x = subtractSymbol rn x <> face rn <> romanNumeral (x - val rn)
