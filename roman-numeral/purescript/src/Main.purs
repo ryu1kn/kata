@@ -6,8 +6,7 @@ import Data.List.Lazy (List, repeat, take, toUnfoldable)
 import Data.String.CodeUnits (fromCharArray)
 
 romanNumeral :: Int -> String
-romanNumeral x | x == 0 = ""
-               | x < 4 = toString <<< flip take (repeat 'I') $ x
+romanNumeral x | x < 4 = toString <<< flip take (repeat 'I') $ x
                | x == 4 = "IV"
                | x < 9 = "V" <> romanNumeral (x - 5)
                | x == 9 = "IX"
