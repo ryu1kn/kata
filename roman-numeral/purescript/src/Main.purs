@@ -2,6 +2,8 @@ module Main where
 
 import Prelude
 
+import Data.List.Lazy (List, find, toUnfoldable)
+import Data.Maybe (fromMaybe)
 import Data.String.CodeUnits (fromCharArray)
 
 data RN = RN { val :: Int, face :: String, dec :: RN } | Zero
@@ -17,6 +19,9 @@ _L = RN {val: 50, face: "L", dec: _X}
 _C :: RN
 _C = RN {val: 100, face: "C", dec: _X}
 
+units :: Array RN
+units = [_C, _L, _X, _V, _I]
+
 val :: RN -> Int
 val (RN r) = r.val
 val Zero = 0
@@ -30,12 +35,9 @@ dec (RN r) = r.dec
 dec Zero = Zero
 
 romanNumeral :: Int -> String
-romanNumeral x | x == 0 = ""
-               | x < lowerBound _V = symbolsAround _I x
-               | x < lowerBound _X = symbolsAround _V x
-               | x < lowerBound _L = symbolsAround _X x
-               | x < lowerBound _C = symbolsAround _L x
-               | otherwise = symbolsAround _C x
+romanNumeral x = fromMaybe "" $ flip symbolsAround x <$> maxSub
+  where
+    maxSub = find (\r -> lowerBound r <= x) units
 
 lowerBound :: RN -> Int
 lowerBound = (-) <$> val <*> (val <<< dec)
