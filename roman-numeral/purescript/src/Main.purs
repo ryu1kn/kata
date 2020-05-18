@@ -8,19 +8,14 @@ import Data.String.CodeUnits (fromCharArray)
 
 data RN = RN { val :: Int, face :: String, dec :: RN } | Zero
 
-_I :: RN
-_I = RN {val: 1, face: "I", dec: Zero}
-_V :: RN
-_V = RN {val: 5, face: "V", dec: _I}
-_X :: RN
-_X = RN {val: 10, face: "X", dec: _I}
-_L :: RN
-_L = RN {val: 50, face: "L", dec: _X}
-_C :: RN
-_C = RN {val: 100, face: "C", dec: _X}
-
 units :: Array RN
 units = [_C, _L, _X, _V, _I]
+  where
+    _I = RN {val: 1, face: "I", dec: Zero}
+    _V = RN {val: 5, face: "V", dec: _I}
+    _X = RN {val: 10, face: "X", dec: _I}
+    _L = RN {val: 50, face: "L", dec: _X}
+    _C = RN {val: 100, face: "C", dec: _X}
 
 val :: RN -> Int
 val (RN r) = r.val
