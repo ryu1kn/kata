@@ -2,9 +2,8 @@ module Main where
 
 import Prelude
 
-import Data.List.Lazy (List, find, toUnfoldable)
+import Data.List.Lazy (find)
 import Data.Maybe (fromMaybe)
-import Data.String.CodeUnits (fromCharArray)
 
 data RN = RN { val :: Int, face :: String, dec :: RN } | Zero
 
@@ -41,6 +40,3 @@ symbolsAround :: RN -> Int -> String
 symbolsAround rn x = if x < val rn
     then (face <<< dec) rn <> face rn <> romanNumeral (x - lowerBound rn)
     else face rn <> romanNumeral (x - val rn)
-
-toString :: List Char -> String
-toString = toUnfoldable >>> fromCharArray
