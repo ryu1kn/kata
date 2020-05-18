@@ -2,7 +2,6 @@ module Main where
 
 import Prelude
 
-import Data.List.Lazy (List, repeat, take, toUnfoldable)
 import Data.String.CodeUnits (fromCharArray)
 
 data RN = RN { val :: Int, face :: String, dec :: RN } | Zero
@@ -31,7 +30,8 @@ dec (RN r) = r.dec
 dec Zero = Zero
 
 romanNumeral :: Int -> String
-romanNumeral x | x < lowerBound _V = toString <<< flip take (repeat 'I') $ x
+romanNumeral x | x == 0 = ""
+               | x < lowerBound _V = symbolsAround _I x
                | x < lowerBound _X = symbolsAround _V x
                | x < lowerBound _L = symbolsAround _X x
                | x < lowerBound _C = symbolsAround _L x
