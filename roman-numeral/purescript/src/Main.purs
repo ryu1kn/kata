@@ -8,13 +8,15 @@ import Data.Maybe (fromMaybe)
 data RN = RN { val :: Int, face :: String, dec :: RN } | Zero
 
 units :: Array RN
-units = [_C, _L, _X, _V, _I]
+units = [_M, _D, _C, _L, _X, _V, _I]
   where
     _I = RN {val: 1, face: "I", dec: Zero}
     _V = RN {val: 5, face: "V", dec: _I}
     _X = RN {val: 10, face: "X", dec: _I}
     _L = RN {val: 50, face: "L", dec: _X}
     _C = RN {val: 100, face: "C", dec: _X}
+    _D = RN {val: 500, face: "D", dec: _C}
+    _M = RN {val: 1000, face: "M", dec: _C}
 
 val :: RN -> Int
 val (RN r) = r.val

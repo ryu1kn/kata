@@ -60,3 +60,15 @@ main = launchAff_ $ runSpec [consoleReporter] do
 
     it "41" do
       romanNumeral 41 `shouldEqual` "XLI"
+
+    it "400" do
+      romanNumeral 400 `shouldEqual` "CD"
+
+    it "1000" do
+      romanNumeral 1000 `shouldEqual` "M"
+
+    it "1889" do
+      romanNumeral 1889 `shouldEqual` "MDCCCLXXXIX"
+
+    it "3999" do
+      romanNumeral 3999 `shouldEqual` "MMMCMXCIX"
