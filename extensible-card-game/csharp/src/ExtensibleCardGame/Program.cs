@@ -15,7 +15,10 @@ namespace ExtensibleCardGame
     {
         public static Func<string, int> EvaluateHand = hand =>
             hand.Split(',')
-                .Select(card => int.Parse(card.Remove(card.Length - 1)))
+                .Select(CardValue)
                 .Sum();
+
+        private static Func<string, int> CardValue =
+            card => int.Parse(card.Remove(card.Length - 1));
     }
 }
