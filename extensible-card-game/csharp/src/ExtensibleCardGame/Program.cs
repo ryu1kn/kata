@@ -24,30 +24,26 @@ namespace ExtensibleCardGame
     }
 
     class Game {
-        private readonly string rule;
+        private readonly bool customRule;
         private readonly List<Card> cards;
 
         public Game(string game)
         {
             var parts = game.Split(';');
             if (parts.Length > 1) {
-                rule = parts[0];
+                customRule = true;
                 cards = ToCards(parts[1]);
             } else {
-                rule = "";
+                customRule = false;
                 cards = ToCards(parts[0]);
             }
         }
 
-        private List<Card> ToCards(string cards) => cards
-                .Split(',')
-                .Select(card => Card.From(card))
-                .ToList();
+        private List<Card> ToCards(string cards) =>
+            cards.Split(',').Select(Card.From).ToList();
 
-        public int Evaluate()
-        {
-            return rule == "" ? cards.Select(c => c.Value).Sum() : 30;
-        }
+        public int Evaluate() =>
+            !customRule ? cards.Select(c => c.Value).Sum() : 30;
     }
 
     readonly struct Card {
