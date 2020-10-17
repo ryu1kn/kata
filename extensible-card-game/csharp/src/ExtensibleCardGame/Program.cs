@@ -9,4 +9,12 @@ namespace ExtensibleCardGame
             Console.WriteLine("Hello World!");
         }
     }
+
+    public class App
+    {
+        public static int EvaluateHand(string hand)
+        {
+            return 4;
+        }
+    }
 }
