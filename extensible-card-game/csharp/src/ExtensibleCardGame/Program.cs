@@ -18,7 +18,7 @@ namespace ExtensibleCardGame
                 return hand.Split(',')
                     .Select(CardValue)
                     .Sum();
-            } catch {
+            } catch (InvalidCardException) {
                 return 0;
             }
         };
@@ -26,8 +26,10 @@ namespace ExtensibleCardGame
         private static Func<string, int> CardValue =
             card => {
                 var value = int.Parse(card.Remove(card.Length - 1));
-                if (value > 13) throw new Exception();
+                if (value > 13) throw new InvalidCardException();
                 return value;
             };
     }
+
+    class InvalidCardException : Exception {}
 }
