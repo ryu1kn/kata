@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace ExtensibleCardGame
 {
@@ -12,6 +13,9 @@ namespace ExtensibleCardGame
 
     public class App
     {
-        public static Func<string, int> EvaluateHand = hand => 4;
+        public static Func<string, int> EvaluateHand = hand =>
+            hand.Split(',')
+                .Select(card => int.Parse(card.Remove(card.Length - 1)))
+                .Sum();
     }
 }
