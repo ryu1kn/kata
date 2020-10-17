@@ -14,9 +14,13 @@ You're playing a game with a trump. A card has a following notation.
    "1H,2S,100C,4D" => 0
 
 1. Now the input has of the form "<rule-name>;<hand>" to enhance the rule.
-   `prefer-odd` gives extra two points for each odd number card.
+   `always-30` gives always 30 points.
 
-   "prefer-odd;1H,2S,3C,4D" => 14
+   "always-30;1H,2S,3C,4D"              => 30
+
+1. If `prefer-odd` rule is given, extra two points for each odd number card.
+
+   "prefer-odd;1H,2S,3C,4D"             => 14
 
 1. If `same-suite` rule is given, add extra 50 points.
 

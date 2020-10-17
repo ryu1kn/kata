@@ -13,9 +13,12 @@ namespace ExtensibleCardGame
 
     public class App
     {
-        public static Func<string, int> EvaluateHand = hand => {
+        public static Func<string, int> EvaluateHand = game => {
             try {
-                return hand.Split(',')
+                var ruleLastIndex = game.IndexOf(';') + 1;
+                if (ruleLastIndex > 0) return 30;
+                return game.Substring(ruleLastIndex)
+                    .Split(',')
                     .Select(card => Card.From(card).Value)
                     .Sum();
             } catch (InvalidCardException) {
