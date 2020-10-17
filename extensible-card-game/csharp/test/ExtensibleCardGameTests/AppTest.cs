@@ -17,5 +17,11 @@ namespace ExtensibleCardGameTests
         {
             Assert.Equal(5, App.EvaluateHand("2H,1S,1C,1D"));
         }
+
+        [Fact]
+        public void InvalidCard()
+        {
+            Assert.Equal(0, App.EvaluateHand("14H,1S,1C,1D"));
+        }
     }
 }
