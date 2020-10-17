@@ -12,9 +12,6 @@ namespace ExtensibleCardGame
 
     public class App
     {
-        public static int EvaluateHand(string hand)
-        {
-            return 4;
-        }
+        public static Func<string, int> EvaluateHand = hand => 4;
     }
 }
