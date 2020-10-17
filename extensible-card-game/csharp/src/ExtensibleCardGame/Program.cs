@@ -15,16 +15,37 @@ namespace ExtensibleCardGame
     {
         public static Func<string, int> EvaluateHand = game => {
             try {
-                var ruleLastIndex = game.IndexOf(';') + 1;
-                if (ruleLastIndex > 0) return 30;
-                return game.Substring(ruleLastIndex)
-                    .Split(',')
-                    .Select(card => Card.From(card).Value)
-                    .Sum();
+                return new Game(game).Evaluate();
             } catch (InvalidCardException) {
                 return 0;
             }
         };
+    }
+
+    class Game {
+        private readonly string rule;
+        private readonly string cards;
+
+        public Game(string game)
+        {
+            var parts = game.Split(';');
+            if (parts.Length > 1) {
+                rule = parts[0];
+                cards = parts[1];
+            } else {
+                rule = "";
+                cards = parts[0];
+            }
+        }
+
+        public int Evaluate()
+        {
+            if (rule != "") return 30;
+            return cards
+                .Split(',')
+                .Select(card => Card.From(card).Value)
+                .Sum();
+        }
     }
 
     readonly struct Card {
