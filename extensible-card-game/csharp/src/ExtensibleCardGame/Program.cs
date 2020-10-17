@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ExtensibleCardGame
@@ -24,27 +25,28 @@ namespace ExtensibleCardGame
 
     class Game {
         private readonly string rule;
-        private readonly string cards;
+        private readonly List<Card> cards;
 
         public Game(string game)
         {
             var parts = game.Split(';');
             if (parts.Length > 1) {
                 rule = parts[0];
-                cards = parts[1];
+                cards = ToCards(parts[1]);
             } else {
                 rule = "";
-                cards = parts[0];
+                cards = ToCards(parts[0]);
             }
         }
 
+        private List<Card> ToCards(string cards) => cards
+                .Split(',')
+                .Select(card => Card.From(card))
+                .ToList();
+
         public int Evaluate()
         {
-            if (rule != "") return 30;
-            return cards
-                .Split(',')
-                .Select(card => Card.From(card).Value)
-                .Sum();
+            return rule == "" ? cards.Select(c => c.Value).Sum() : 30;
         }
     }
 
