@@ -53,6 +53,7 @@ namespace ExtensibleCardGame
         {
             "" => cards.Select(c => c.Value).Sum(),
             "prefer-odd" => cards.Select(c => c.Value + (c.Value % 2 == 0 ? 0 : 2)).Sum(),
+            "same-suite" => cards.Select(c => c.Value).Sum() + (cards.Select(c => c.Suite).Distinct().Count() == 1 ? 50 : 0),
             _ => 0
         };
     }
@@ -60,16 +61,18 @@ namespace ExtensibleCardGame
     readonly struct Card
     {
         public readonly int Value;
+        public readonly char Suite;
 
-        Card(int value)
+        Card(int value, char suite)
         {
-            this.Value = value;
+            Value = value;
+            Suite = suite;
         }
 
         public static Func<string, Card> From = card =>
         {
             var value = int.Parse(card.Remove(card.Length - 1));
-            return value > 13 ? throw new InvalidCardException() : new Card(value);
+            return value > 13 ? throw new InvalidCardException() : new Card(value, card.Last());
         };
     }
 
