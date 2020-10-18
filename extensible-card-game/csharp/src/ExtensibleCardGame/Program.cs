@@ -28,7 +28,7 @@ namespace ExtensibleCardGame
 
     class Game
     {
-        private readonly bool customRule;
+        private readonly string customRule;
         private readonly List<Card> cards;
 
         public Game(string game)
@@ -36,12 +36,12 @@ namespace ExtensibleCardGame
             var parts = game.Split(';');
             if (parts.Length > 1)
             {
-                customRule = true;
+                customRule = parts[0];
                 cards = ToCards(parts[1]);
             }
             else
             {
-                customRule = false;
+                customRule = "";
                 cards = ToCards(parts[0]);
             }
         }
@@ -49,8 +49,12 @@ namespace ExtensibleCardGame
         private List<Card> ToCards(string cards) =>
             cards.Split(',').Select(Card.From).ToList();
 
-        public int Evaluate() =>
-            !customRule ? cards.Select(c => c.Value).Sum() : 0;
+        public int Evaluate() => customRule switch
+        {
+            "" => cards.Select(c => c.Value).Sum(),
+            "prefer-odd" => cards.Select(c => c.Value + (c.Value % 2 == 0 ? 0 : 2)).Sum(),
+            _ => 0
+        };
     }
 
     readonly struct Card
