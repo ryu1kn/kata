@@ -43,7 +43,7 @@ namespace ExtensibleCardGame
             cards.Split(',').Select(Card.From).ToList();
 
         public int Evaluate() =>
-            !customRule ? cards.Select(c => c.Value).Sum() : 30;
+            !customRule ? cards.Select(c => c.Value).Sum() : 0;
     }
 
     readonly struct Card {

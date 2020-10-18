@@ -14,9 +14,9 @@ You're playing a game with a trump. A card has a following notation.
    "1H,2S,100C,4D" => 0
 
 1. Now the input has of the form "<rule-name>;<hand>" to enhance the rule.
-   `always-30` gives always 30 points.
+   If the given rule is not known, you get 0 point.
 
-   "always-30;1H,2S,3C,4D"              => 30
+   "unknown;1H,2S,3C,4D"                => 0
 
 1. If `prefer-odd` rule is given, extra two points for each odd number card.
 

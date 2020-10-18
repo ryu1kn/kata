@@ -25,9 +25,9 @@ namespace ExtensibleCardGameTests
         }
 
         [Fact]
-        public void RuleAlways30()
+        public void UnknownRule()
         {
-            Assert.Equal(30, App.EvaluateHand("always-30;1H,1S,1C,1D"));
+            Assert.Equal(0, App.EvaluateHand("unknown;1H,1S,1C,1D"));
         }
     }
 }
