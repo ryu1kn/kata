@@ -15,25 +15,32 @@ namespace ExtensibleCardGame
     public class App
     {
         public static Func<string, int> EvaluateHand = game => {
-            try {
+            try
+            {
                 return new Game(game).Evaluate();
-            } catch (InvalidCardException) {
+            }
+            catch (InvalidCardException)
+            {
                 return 0;
             }
         };
     }
 
-    class Game {
+    class Game
+    {
         private readonly bool customRule;
         private readonly List<Card> cards;
 
         public Game(string game)
         {
             var parts = game.Split(';');
-            if (parts.Length > 1) {
+            if (parts.Length > 1)
+            {
                 customRule = true;
                 cards = ToCards(parts[1]);
-            } else {
+            }
+            else
+            {
                 customRule = false;
                 cards = ToCards(parts[0]);
             }
@@ -46,19 +53,21 @@ namespace ExtensibleCardGame
             !customRule ? cards.Select(c => c.Value).Sum() : 0;
     }
 
-    readonly struct Card {
+    readonly struct Card
+    {
         public readonly int Value;
 
-        Card(int value) {
+        Card(int value)
+        {
             this.Value = value;
         }
 
-        static public Func<string, Card> From = card => {
+        public static Func<string, Card> From = card =>
+        {
             var value = int.Parse(card.Remove(card.Length - 1));
-            if (value > 13) throw new InvalidCardException();
-            return new Card(value);
+            return value > 13 ? throw new InvalidCardException() : new Card(value);
         };
     }
 
-    class InvalidCardException : Exception {}
+    class InvalidCardException : Exception { }
 }
