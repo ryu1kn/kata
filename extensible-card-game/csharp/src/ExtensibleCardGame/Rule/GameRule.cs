@@ -34,6 +34,7 @@ namespace ExtensibleCardGame.Rule
         string IGameRule.RuleName => "same-suite";
 
         public int Point(IEnumerable<Card> cards) =>
-            cards.Select(c => c.Value).Sum() + (cards.CountBy(c => c.Suite) == 1 ? 50 : 0);
+            cards.Select(c => c.Value).Sum()
+            + (cards.CountBy(c => c.Suite) == 1 ? 50 : 0);
     }
 }

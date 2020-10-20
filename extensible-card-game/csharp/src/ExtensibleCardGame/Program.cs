@@ -5,17 +5,17 @@ using ExtensibleCardGame.Rule;
 
 namespace ExtensibleCardGame
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] _args)
         {
             Console.WriteLine("Hello World!");
         }
     }
 
-    public class App
+    public static class App
     {
-        public static Func<string, int> EvaluateHand = game => {
+        public static readonly Func<string, int> EvaluateHand = game => {
             try
             {
                 return new Game(game).Evaluate();
@@ -27,11 +27,11 @@ namespace ExtensibleCardGame
         };
     }
 
-    class Game
+    internal class Game
     {
-        private readonly string customRule;
-        private readonly List<Card> cards;
-        private readonly List<IGameRule> rules = new List<IGameRule>
+        private readonly string _customRule;
+        private readonly List<Card> _cards;
+        private readonly List<IGameRule> _rules = new List<IGameRule>
         {
             new NoCustomRule(),
             new PreferOddRule(),
@@ -43,21 +43,21 @@ namespace ExtensibleCardGame
             var parts = game.Split(';');
             if (parts.Length > 1)
             {
-                customRule = parts[0];
-                cards = ToCards(parts[1]);
+                _customRule = parts[0];
+                _cards = ToCards(parts[1]);
             }
             else
             {
-                customRule = "";
-                cards = ToCards(parts[0]);
+                _customRule = "";
+                _cards = ToCards(parts[0]);
             }
         }
 
-        private List<Card> ToCards(string cards) =>
+        private static List<Card> ToCards(string cards) =>
             cards.Split(',').Select(Card.From).ToList();
 
-        public int Evaluate() => rules.Find(rule => rule.Match(customRule))?.Point(cards) ?? 0;
+        public int Evaluate() => _rules.Find(rule => rule.Match(_customRule))?.Point(_cards) ?? 0;
     }
 
-    class InvalidCardException : Exception { }
+    internal class InvalidCardException : Exception { }
 }
