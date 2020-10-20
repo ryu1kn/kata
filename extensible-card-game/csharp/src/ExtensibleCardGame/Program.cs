@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExtensibleCardGame.Rule;
 
 namespace ExtensibleCardGame
 {
@@ -30,6 +31,12 @@ namespace ExtensibleCardGame
     {
         private readonly string customRule;
         private readonly List<Card> cards;
+        private readonly List<IGameRule> rules = new List<IGameRule>
+        {
+            new NoCustomRule(),
+            new PreferOddRule(),
+            new SameSuiteRule()
+        };
 
         public Game(string game)
         {
@@ -49,31 +56,7 @@ namespace ExtensibleCardGame
         private List<Card> ToCards(string cards) =>
             cards.Split(',').Select(Card.From).ToList();
 
-        public int Evaluate() => customRule switch
-        {
-            "" => cards.Select(c => c.Value).Sum(),
-            "prefer-odd" => cards.Select(c => c.Value + (c.Value % 2 == 0 ? 0 : 2)).Sum(),
-            "same-suite" => cards.Select(c => c.Value).Sum() + (cards.Select(c => c.Suite).Distinct().Count() == 1 ? 50 : 0),
-            _ => 0
-        };
-    }
-
-    readonly struct Card
-    {
-        public readonly int Value;
-        public readonly char Suite;
-
-        Card(int value, char suite)
-        {
-            Value = value;
-            Suite = suite;
-        }
-
-        public static Func<string, Card> From = card =>
-        {
-            var value = int.Parse(card.Remove(card.Length - 1));
-            return value > 13 ? throw new InvalidCardException() : new Card(value, card.Last());
-        };
+        public int Evaluate() => rules.Find(rule => rule.Match(customRule))?.Point(cards) ?? 0;
     }
 
     class InvalidCardException : Exception { }
