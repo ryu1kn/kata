@@ -3,10 +3,10 @@ module Lib
     ) where
 
 mommify :: String -> String
-mommify s = concat $ map mommifyChar s
+mommify = concatMap mommifyChar
 
 mommifyChar :: Char -> String
-mommifyChar c = if isVowel c then "mommy" else (c : "")
+mommifyChar c = if isVowel c then "mommy" else c : ""
 
 isVowel :: Char -> Bool
-isVowel = flip elem $ "aeiou"
+isVowel = flip elem "aeiou"
