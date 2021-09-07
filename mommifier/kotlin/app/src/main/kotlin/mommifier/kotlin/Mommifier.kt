@@ -4,7 +4,7 @@ object Mommifier {
     fun mommify(s: String): String =
         s.map(::mommifyCharacter).joinToString("")
 
-    private fun mommifyCharacter(it: Char) = if (isVowel(it)) "mommy" else it.toString()
+    private fun mommifyCharacter(c: Char) = if (isVowel(c)) "mommy" else c.toString()
 
-    private fun isVowel(s: Char) = "aeiou".contains(s)
+    private fun isVowel(c: Char) = "aeiou".contains(c)
 }
