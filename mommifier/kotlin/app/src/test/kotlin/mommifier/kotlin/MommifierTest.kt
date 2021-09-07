@@ -14,5 +14,10 @@ class MommifierTest {
     fun `returns a consonant`() {
         assertEquals("b", mommify("b"))
     }
+
+    @org.junit.Test
+    fun `returns "mommy" if "a" is given`() {
+        assertEquals("mommy", mommify("a"))
+    }
 }
 
