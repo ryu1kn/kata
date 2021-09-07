@@ -33,5 +33,10 @@ class MommifierTest {
     fun `replaces consecutive vowels with one mommy`() {
         assertEquals("mommy", mommify("aa"))
     }
+
+    @Test
+    fun `replaces "ae" with one mommy`() {
+        assertEquals("mommy", mommify("ae"))
+    }
 }
 
