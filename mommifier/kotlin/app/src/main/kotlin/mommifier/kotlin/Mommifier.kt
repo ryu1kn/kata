@@ -3,5 +3,5 @@ package mommifier.kotlin
 object Mommifier {
     fun mommify(s: String): String = if (shouldMommify(s)) "mommy" else s
 
-    private fun shouldMommify(s: String) = s.isNotEmpty() && "aeio".contains(s)
+    private fun shouldMommify(s: String) = s.isNotEmpty() && "aeiou".contains(s)
 }
