@@ -23,5 +23,10 @@ class MommifierTest {
         assertEquals("mommy", mommify("o"))
         assertEquals("mommy", mommify("u"))
     }
+
+    @org.junit.Test
+    fun `replaces only a vowel in a string`() {
+        assertEquals("mommyb", mommify("ab"))
+    }
 }
 
