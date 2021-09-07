@@ -1,7 +1,7 @@
 package mommifier.kotlin
 
 import mommifier.kotlin.Mommifier.mommify
-import kotlin.test.Test
+import org.junit.Test
 import kotlin.test.assertEquals
 
 class MommifierTest {
@@ -15,7 +15,7 @@ class MommifierTest {
         assertEquals("b", mommify("b"))
     }
 
-    @org.junit.Test
+    @Test
     fun `returns "mommy" if a vowel is given`() {
         assertEquals("mommy", mommify("a"))
         assertEquals("mommy", mommify("e"))
@@ -24,9 +24,14 @@ class MommifierTest {
         assertEquals("mommy", mommify("u"))
     }
 
-    @org.junit.Test
+    @Test
     fun `replaces only a vowel in a string`() {
         assertEquals("mommyb", mommify("ab"))
+    }
+
+    @Test
+    fun `replaces consecutive vowels with one mommy`() {
+        assertEquals("mommy", mommify("aa"))
     }
 }
 
