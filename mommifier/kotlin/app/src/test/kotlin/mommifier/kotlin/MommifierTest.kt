@@ -16,27 +16,11 @@ class MommifierTest {
     }
 
     @org.junit.Test
-    fun `returns "mommy" if "a" is given`() {
+    fun `returns "mommy" if a vowel is given`() {
         assertEquals("mommy", mommify("a"))
-    }
-
-    @org.junit.Test
-    fun `returns "mommy" if "e" is given`() {
         assertEquals("mommy", mommify("e"))
-    }
-
-    @org.junit.Test
-    fun `returns "mommy" if "i" is given`() {
         assertEquals("mommy", mommify("i"))
-    }
-
-    @org.junit.Test
-    fun `returns "mommy" if "o" is given`() {
         assertEquals("mommy", mommify("o"))
-    }
-
-    @org.junit.Test
-    fun `returns "mommy" if "u" is given`() {
         assertEquals("mommy", mommify("u"))
     }
 }
