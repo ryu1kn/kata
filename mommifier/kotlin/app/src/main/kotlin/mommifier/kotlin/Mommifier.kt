@@ -1,5 +1,5 @@
 package mommifier.kotlin
 
 object Mommifier {
-    fun mommify(s: String): String = ""
+    fun mommify(s: String): String = s
 }

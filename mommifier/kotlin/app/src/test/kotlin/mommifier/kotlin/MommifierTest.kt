@@ -9,5 +9,10 @@ class MommifierTest {
     fun `returns an empty string`() {
         assertEquals("", mommify(""))
     }
+
+    @Test
+    fun `returns a consonant`() {
+        assertEquals("b", mommify("b"))
+    }
 }
 
