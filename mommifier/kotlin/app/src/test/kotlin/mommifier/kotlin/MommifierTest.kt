@@ -29,5 +29,10 @@ class MommifierTest {
     fun `returns "mommy" if "i" is given`() {
         assertEquals("mommy", mommify("i"))
     }
+
+    @org.junit.Test
+    fun `returns "mommy" if "o" is given`() {
+        assertEquals("mommy", mommify("o"))
+    }
 }
 
