@@ -18,3 +18,4 @@
 * [Mommifier](./mommifier/README.md)
 * [Family](./family/README.md)
 * [FizzBuzz](./fizzbuzz/README.md)
+* [Merge Intervals](./merge-intervals/README.md)
